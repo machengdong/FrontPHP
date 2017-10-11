@@ -8,6 +8,9 @@ class Kernel
     public static function boot()
     {
         try{
+
+            include ROOT_PATH.'/../config/config.php';
+
             $path_info = Request::getPathInfo();
 
             self::dispatch($path_info);

@@ -3,15 +3,18 @@
 
 namespace app\control;
 
+use Front\Mvc\Control;
 use Front\App;
 
 
-class Home
+class Home extends Control
 {
     public function root()
     {
-       $model_object = App::model(\app\model\Home::class);
-       $model_object->storage()->select();
+        $model_object = App::model(\app\model\Home::class);
+        $model_object->storage()->select();
+        $data = App::input();
+        $this->display('home.php',$data);
     }
 
     public function getInfo()

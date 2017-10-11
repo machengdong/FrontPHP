@@ -25,6 +25,22 @@ class App
         return $object = App::instance($model);
     }
 
+    public static function input($name = null,$original = false)
+    {
+        if($original)
+        {
+            $data = file_get_contents("php://input");
+        }else{
+            $data = array_merge($_GET,$_POST);
+        }
+
+        if($name)
+        {
+            $data = $data[$name];
+        }
+        return $data;
+    }
+
     private static function instance($class_name)
     {
         if(!isset(self::$__instance[$class_name]))
