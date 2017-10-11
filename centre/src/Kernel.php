@@ -27,7 +27,11 @@ class Kernel
         {
             $control = $target['ctl'];
             $method  = $target['mtd'];
-            return App::control($control)->$method();
+        }else{
+            $control = defined('DEFAULT_CTL') ? DEFAULT_CTL : '';
+            $method  = defined('DEFAULT_MTD') ? DEFAULT_MTD : '';
         }
+        return App::control($control)->$method();
+
     }
 }
