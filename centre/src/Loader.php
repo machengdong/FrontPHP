@@ -16,6 +16,7 @@ class Loader
                 }
                 try {
                     include ROOT_PATH.'/../'.str_replace('\\','/',$class_name).'.php';
+                    return true;
                 }
                 catch (\Exception $e)
                 {
