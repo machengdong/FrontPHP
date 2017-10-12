@@ -11,4 +11,24 @@ class Request
         $path_info = "/".ltrim($path_info,"/");
         return $path_info;
     }
+
+    public static function getHost()
+    {
+
+    }
+
+    public static function isPost()
+    {
+
+    }
+
+    public static function isGet()
+    {
+
+    }
+
+    public static function isAjax()
+    {
+
+    }
 }

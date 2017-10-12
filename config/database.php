@@ -6,7 +6,7 @@
  * Time: 下午5:43
  */
 
-return[
+return [
     'default' => [
         'db_host'=>'127.0.0.1',
         'db_name'=>'demo',

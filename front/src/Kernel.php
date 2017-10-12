@@ -9,8 +9,14 @@ class Kernel
     {
         try{
 
-            include ROOT_PATH.'/../config/config.php';
-
+            $app_config = Config::get('app');
+            foreach ((array)$app_config as $ack => $acv)
+            {
+                if(!defined(strtoupper($ack)))
+                {
+                    define(strtoupper($ack),$acv);
+                }
+            }
             $path_info = Request::getPathInfo();
 
             self::dispatch($path_info);
