@@ -11,8 +11,9 @@ class Home extends Control
 {
     public function root()
     {
+        echo "<pre>";
         $model_object = App::model(\app\model\Home::class);
-        $model_object->storage()->select();
+        $model_object->storage('master')->select();
         $data = App::input();
         $this->display('home.php',$data);
     }

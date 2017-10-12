@@ -17,9 +17,11 @@ class Kernel
                     define(strtoupper($ack),$acv);
                 }
             }
+
             $path_info = Request::getPathInfo();
 
             self::dispatch($path_info);
+
         }catch (\Exception $e)
         {
 

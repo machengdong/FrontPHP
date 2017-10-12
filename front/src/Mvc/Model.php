@@ -3,6 +3,7 @@
 namespace Front\Mvc;
 
 use Front\Config;
+use Front\Db;
 
 class Model
 {
@@ -14,6 +15,7 @@ class Model
        {
            $this->databases = Config::get('database.default');
        }
+        Db::getInstance()->connect($this->databases);
     }
 
     public function storage($storage = 'default')
@@ -30,7 +32,6 @@ class Model
 
     public function select()
     {
-        echo "<pre>";
         print_r($this->databases);
         print_r('this is base model.select');
     }
