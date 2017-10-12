@@ -16,12 +16,15 @@ class Model
        }
     }
 
-    public function storage($storage=null)
+    public function storage($storage = 'default')
     {
-        if($storage)
+        $dbconfig = Config::get("database.{$storage}");
+
+        if($dbconfig && is_array($dbconfig))
         {
-            $this->databases = Config::get("database.{$storage}");
+            $this->databases = $dbconfig;
         }
+
         return $this;
     }
 

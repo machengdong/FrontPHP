@@ -12,7 +12,7 @@ final class View
 
     public static function display($file,$data=[])
     {
-        extract($data);
+        if($data)extract($data);
         include VIEW_PATH.$file;
     }
 }
