@@ -9,7 +9,3 @@
  * @author   lru <lru@ximahe.cn>
  *
  */
-return [
-    '/'=>['ctl'=>'\App\control\Home','mtd'=>'root'],
-    '/get'=>['ctl'=>'\App\control\Home','mtd'=>'getInfo'],
-];

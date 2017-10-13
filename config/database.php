@@ -1,9 +1,13 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: lru
- * Date: 2017/10/10
- * Time: 下午5:43
+ * FrontPHP  [文件描述]
+ *
+ * @category PHP
+ *
+ * @version  Release: 1.0.0
+ *
+ * @author   lru <lru@ximahe.cn>
+ *
  */
 
 return [
