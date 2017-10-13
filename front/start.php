@@ -6,6 +6,8 @@ define('FRAME_PATH',realpath(dirname(__FILE__)));
 
 include_once FRAME_PATH."/src/Loader.php";
 
+include_once FRAME_PATH."/helper.php";
+
 Front\Loader::autoload();
 
 Front\Kernel::boot();

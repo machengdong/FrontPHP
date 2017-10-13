@@ -15,6 +15,7 @@ class Home extends Control
         $model_object = App::model(\app\model\Home::class);
         $model_object->storage('master')->select();
         $data = App::input();
+        dump($model_object,false);
         $this->display('home.php',$data);
     }
 
