@@ -9,4 +9,6 @@
  * @author   lru <lru@ximahe.cn>
  *
  */
-return ['stie','wap','apis'];
+return [
+    '/' => 'xxx@xxx',
+];

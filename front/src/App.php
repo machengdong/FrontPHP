@@ -25,6 +25,15 @@ class App
         return $object = App::instance($control);
     }
 
+    public static function apiAction($action)
+    {
+        if(!strpos($action,'apis'))
+        {
+            return new \stdClass();
+        }
+        return $object = App::instance($action);
+    }
+
     public static function model($model)
     {
         if(!strpos($model,'model'))

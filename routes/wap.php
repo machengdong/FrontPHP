@@ -9,4 +9,7 @@
  * @author   lru <lru@ximahe.cn>
  *
  */
-return ['stie','wap','apis'];
+return [
+    '/'          => '\App\control\wap\Home@root',
+    '/get.html'  => '\App\control\wap\Home@getInfo',
+];

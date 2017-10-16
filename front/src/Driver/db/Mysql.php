@@ -9,10 +9,11 @@
  * @author   lru <lru@ximahe.cn>
  *
  */
-namespace Front;
+namespace Front\Drive\db;
 
+use Front\Interfaces\Dbdriver;
 
-final class Db
+class Mysql implements Dbdriver
 {
     private static $__instance;
 
@@ -24,7 +25,11 @@ final class Db
         }
         return self::$__instance;
     }
-
+    public function connect($config = [], $name = false)
+    {
+        print_r('database.this.is.connect,config is ');
+        print_r($config);
+    }
     public function query($sql)
     {
 
