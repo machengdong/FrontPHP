@@ -10,12 +10,8 @@
  *
  */
 
-use Front\Routes;
-use Front\Request;
-use Front\App;
+
 use Front\Config;
-
-
 
 class Server
 {
@@ -24,6 +20,7 @@ class Server
         $this->server_addr = defined('SERVER_ADDR') ? SERVER_ADDR : '127.0.0.1';
         $this->server_port = defined('SERVER_PORT') ? SERVER_PORT : '80';
         $this->http = new swoole_http_server($this->server_addr, $this->server_port);
+        $this->job  = new core();
     }
 
     public function init()
@@ -61,7 +58,7 @@ class Server
             $this->setServer($request);
             $this->setCookie($request);
             $this->setFile($request);
-            $this->boot($response);
+            $this->job->boot($response);
 
         });
 
@@ -94,50 +91,5 @@ class Server
         {
             $_SERVER[strtoupper($k)] = $v;
         }
-    }
-
-    public function boot($response)
-    {
-
-        $path_info = Request::getPathInfo();
-
-        $this->dispatch($path_info,$response);
-    }
-
-    public function dispatch($path_info,$response)
-    {
-        $routes = Routes::preParse($path_info,$classify);
-        switch ($classify)
-        {
-            case 'apis':
-                $this->dispatch_apis($routes,$response);
-                break;
-            case 'site':
-            case 'wap':
-            default:
-                $this->dispatch_default($routes,$response);
-                break;
-        }
-    }
-
-    public function dispatch_default($routes,$response)
-    {
-        if(!$routes)
-        {
-            return $response->end(file_get_contents(ROOT_PATH.'/404.html'));
-        }
-
-        list($control,$method) = explode('@',$routes);
-
-        ob_start();
-        App::control($control)->$method();
-        $output = ob_get_clean();
-
-        return $response->end($output);
-    }
-
-    public function dispatch_apis($routes,$response)
-    {
-        return $response->end('API NOT Found');
     }
 }
