@@ -15,9 +15,11 @@ error_reporting(0);
 $dir = realpath(dirname(__FILE__));
 
 define('FRAME_PATH',$dir.'/../front');
-define('ROOT_PATH',$dir);
+define('ROOT_PATH',$dir.'/../public');
+define('SERVER_ADDR','172.16.130.130');
+define('SERVER_PORT','8080');
 
-include ROOT_PATH.'/swoole/server.php';
+include $dir.'/swoole/server.php';
 
 include ROOT_PATH.'/../front/src/Loader.php';
 
@@ -28,3 +30,6 @@ Front\Loader::autoload();
 $server = new Server();
 
 $server->init()->run();
+
+
+

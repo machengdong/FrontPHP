@@ -28,7 +28,7 @@ class Routes
         }
         catch (\Exception $e)
         {
-                return $e->getMessage();
+            return $e->getMessage();
         }
 
     }

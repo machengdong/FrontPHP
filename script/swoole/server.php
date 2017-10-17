@@ -21,7 +21,9 @@ class Server
 {
     public function __construct()
     {
-        $this->http = new swoole_http_server("172.16.130.130", 8080);
+        $this->server_addr = defined('SERVER_ADDR') ? SERVER_ADDR : '127.0.0.1';
+        $this->server_port = defined('SERVER_PORT') ? SERVER_PORT : '80';
+        $this->http = new swoole_http_server($this->server_addr, $this->server_port);
     }
 
     public function init()
@@ -35,27 +37,32 @@ class Server
             }
         }
         $this->http->on("start", function ($server) {
-            echo "Swoole http server is started at http://172.16.130.130:8080\n";
+            echo "Swoole http server is started at http://{$this->server_addr}:{$this->server_port}\n";
         });
+
+        $this->http->set([
+            'enable_static_handler' => true,/*设置可以处理静态文件*/
+            'document_root' => VIEW_PATH,/*设置处理静态文件路径，如：/data/www/static/css*/
+        ]);
         return $this;
     }
 
     public function run()
     {
-        $this->http->on("request", function ($request, $response) {
+        $this->http->on('request', function ($request, $response) {
+            /*请求过滤,暂不清楚为什么开启了静态文件处理之后，这里还有这个请求*/
+            if ($request->server['path_info'] == '/favicon.ico' || $request->server['request_uri'] == '/favicon.ico')
+            {
+                return $response->end();
+            }
             $request = (array)$request;
             $this->setPost($request);
             $this->setGet($request);
             $this->setServer($request);
             $this->setCookie($request);
             $this->setFile($request);
-            $result = self::boot();
-            if(!$result)
-            {
-                $result = file_get_contents(ROOT_PATH.'/../public/404.html');
-            }
-            $response->write($result);
-            //$response->end($result);
+            $this->boot($response);
+
         });
 
         $this->http->start();
@@ -70,14 +77,17 @@ class Server
     {
         $_GET = $request['get'];
     }
+
     public function setCookie(array $request)
     {
         $_COOKIE = $request['cookie'];
     }
+
     public function setFile(array $request)
     {
         $_FILES = $request['files'];
     }
+
     public function setServer(array $request)
     {
         foreach ($request['server'] as $k=>$v)
@@ -86,18 +96,48 @@ class Server
         }
     }
 
-
-
-
-
-    public static function boot()
+    public function boot($response)
     {
 
         $path_info = Request::getPathInfo();
-        if($path_info == '/favicon.ico') return '111';
+
+        $this->dispatch($path_info,$response);
+    }
+
+    public function dispatch($path_info,$response)
+    {
+        $routes = Routes::preParse($path_info,$classify);
+        switch ($classify)
+        {
+            case 'apis':
+                $this->dispatch_apis($routes,$response);
+                break;
+            case 'site':
+            case 'wap':
+            default:
+                $this->dispatch_default($routes,$response);
+                break;
+        }
+    }
+
+    public function dispatch_default($routes,$response)
+    {
+        if(!$routes)
+        {
+            return $response->end(file_get_contents(ROOT_PATH.'/404.html'));
+        }
+
+        list($control,$method) = explode('@',$routes);
+
         ob_start();
-            Routes::dispatch($path_info);
-        $html = ob_get_clean();
-        return $html;
+        App::control($control)->$method();
+        $output = ob_get_clean();
+
+        return $response->end($output);
+    }
+
+    public function dispatch_apis($routes,$response)
+    {
+        return $response->end('API NOT Found');
     }
 }

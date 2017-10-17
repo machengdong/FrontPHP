@@ -25,6 +25,7 @@ class Home extends Control
 
     public function getInfo()
     {
-
+        echo 'xxxxx';
+        $this->display('home.php');
     }
 }
