@@ -114,8 +114,15 @@ class Routes
 
 
         $routes = self::load($classify);
+        if(!empty($routes) && array_key_exists($path_info,$routes))
+        {
+            return $routes[$path_info];
+        }
+        else
+        {
+            return null;
+        }
 
-        return $routes[$path_info];
     }
 
     private static function load($file_name = 'site')
