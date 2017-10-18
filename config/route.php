@@ -9,4 +9,15 @@
  * @author   lru <lru@ximahe.cn>
  *
  */
-return ['stie','wap','apis'];
+return [
+   'site'=> [
+       '/'         => '\App\control\site\Home@root',
+       '/get.html' => '\App\control\site\Home@getInfo',
+       '/swoole.jsp' => '\App\control\site\Swoole@index',
+       ],
+   /*'admin'=> [
+       '/'         => '\App\control\site\Home@root',
+       '/get.html' => '\App\control\site\Home@getInfo',
+       '/swoole.jsp' => '\App\control\site\Swoole@index',
+       ],*/
+];
