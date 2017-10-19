@@ -13,6 +13,11 @@
 error_reporting(E_ALL & ~E_NOTICE);
 
 define('FRAME_PATH',realpath(dirname(__FILE__)));
+define('APPLY',ROOT_PATH.'/../app');
+define('VIEW_PATH',APPLY.'/view/');
+define('DOCUMENT_ROOT','/static/');
+//document_root
+
 
 include_once FRAME_PATH."/src/Loader.php";
 

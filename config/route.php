@@ -11,13 +11,15 @@
  */
 return [
    'site'=> [
-       '/'         => '\App\control\site\Home@root',
-       '/get.html' => '\App\control\site\Home@getInfo',
-       '/swoole.jsp' => '\App\control\site\Swoole@index',
+       '/'         => '\app\control\site\Home@root',
+       '/get.html' => '\app\control\site\Home@getInfo',
+       '/v.html' => '\app\control\site\Home@getDesc',
+       '/swoole.jsp' => '\app\control\site\Swoole@index',
        ],
-   /*'admin'=> [
-       '/'         => '\App\control\site\Home@root',
-       '/get.html' => '\App\control\site\Home@getInfo',
-       '/swoole.jsp' => '\App\control\site\Swoole@index',
-       ],*/
+   'admin'=> [
+       '/login.html' => '\app\control\admin\Passport@index',
+       '/desktop.html'=>'\app\control\admin\Desktop@index',
+       '/get/top.html'=>'\app\control\admin\Desktop@getTop',
+       '/get/left.html'=>'\app\control\admin\Desktop@getLeft',
+       ],
 ];

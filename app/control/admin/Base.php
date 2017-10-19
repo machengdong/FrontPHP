@@ -9,25 +9,25 @@
  * @author   lru <lru@ximahe.cn>
  *
  */
-namespace app\control\site;
+namespace app\control\admin;
 
 use Front\Mvc\Control;
 use Front\App;
 
 
-class Home extends Control
+class Base extends Control
 {
     public function root()
     {
-        $this->display('site/home.php');
+        $this->display('home.php');
     }
 
     public function getInfo()
     {
-        $this->display('site/info.php');
+        $this->display('info.php');
     }
     public function getDesc()
     {
-        $this->display('site/desc.php');
+        $this->display('desc.php');
     }
 }

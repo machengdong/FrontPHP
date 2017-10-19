@@ -110,22 +110,9 @@ class Routes
         {
             return $routes[$target];
         }
-<<<<<<< HEAD
 
-
-        $routes = self::load($classify);
-        if(!empty($routes) && array_key_exists($path_info,$routes))
-        {
-            return $routes[$path_info];
-        }
-        else
-        {
-            return null;
-        }
-
-=======
         return null;
->>>>>>> aa0a2b7f98c35e56626d111f7b040d8f0ab22b76
+
     }
 
     private static function load($scene)
