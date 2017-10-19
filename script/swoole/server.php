@@ -25,21 +25,13 @@ class Server
 
     public function init()
     {
-        $app_config = Config::get('app');
-        foreach ((array)$app_config as $ack => $acv)
-        {
-            if(!defined(strtoupper($ack)))
-            {
-                define(strtoupper($ack),$acv);
-            }
-        }
         $this->http->on("start", function ($server) {
             echo "Swoole http server is started at http://{$this->server_addr}:{$this->server_port}\n";
         });
 
         $this->http->set([
             'enable_static_handler' => true,/*设置可以处理静态文件*/
-            'document_root' => VIEW_PATH,/*设置处理静态文件路径，如：/data/www/static/css*/
+            'document_root' => DOCUMENT_ROOT,/*设置处理静态文件路径，如：/data/www/static/css*/
         ]);
         return $this;
     }
