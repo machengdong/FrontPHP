@@ -13,6 +13,7 @@ namespace app\control\admin;
 
 use Front\Mvc\Control;
 use Front\App;
+use Front\Config;
 
 
 class Desktop extends Control
@@ -28,6 +29,10 @@ class Desktop extends Control
     }
     public function getLeft()
     {
-        $this->display('admin/base/_left.php');
+        $menus = Config::get('menu.admin');
+        $data = [
+            'menu' => $menus,
+        ];
+        $this->display('admin/base/_left.php',$data);
     }
 }

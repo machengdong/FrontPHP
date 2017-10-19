@@ -28,18 +28,18 @@
 <body class="desktop-left">
 <div id="admin-menus">
     <ul>
-        {volist name="menus" id="vo"}
+        <?php foreach((array)$menu as $v){ ?>
         <li>
-            <p class="top-level-menu">{$vo.os_menusname} <span>▲</span></p>
+            <p class="top-level-menu"><?php echo $v['name']; ?> <span>▲</span></p>
             <div style="display: none">
-                {volist name="vo.sublevel" id="sublevel"}
+                <?php foreach ((array)$v['sublevel'] as $sv){ ?>
                 <p style="font-size: 16px;">
-                    <a style="color: lavender;" href="{$sublevel.os_menusurl}" target="frame_center">{$sublevel.os_menusname} ☞</a>
+                    <a style="color: lavender;" href="<?php echo $sv['href']; ?>" target="frame_center"><?php echo $sv['name']; ?> ☞</a>
                 </p>
-                {/volist}
+                <?php } ?>
             </div>
         </li>
-        {/volist}
+        <?php } ?>
 
     </ul>
 </div>
