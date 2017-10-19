@@ -19,7 +19,7 @@ class core
     public function boot($response)
     {
         $path_info = Request::getPathInfo();
-        $GLOBALS['swoole_response'] = $response;
+        App::setResponseInstance($response);
         $this->dispatch($path_info,$response);
     }
 
