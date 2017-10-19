@@ -11,9 +11,9 @@
  */
 return [
    'site'=> [
-       '/'         => '\App\control\site\Home@root',
-       '/get.html' => '\App\control\site\Home@getInfo',
-       '/swoole.jsp' => '\App\control\site\Swoole@index',
+       '/'         => '\app\control\site\Home@root',
+       '/get.html' => '\app\control\site\Home@getInfo',
+       '/swoole.jsp' => '\app\control\site\Swoole@index',
        ],
    /*'admin'=> [
        '/'         => '\App\control\site\Home@root',
