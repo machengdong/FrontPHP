@@ -15,6 +15,7 @@ namespace Front;
 class App
 {
     private static $__instance;
+    private static $__responseInstance;
 
     public static function control($control)
     {
@@ -41,6 +42,21 @@ class App
             return new \stdClass();
         }
         return $object = App::instance($model);
+    }
+
+    public static function setResponseInstance($responseInstance)
+    {
+        self::$__responseInstance = $responseInstance;
+    }
+
+    public static function getResponseInstance()
+    {
+        if(!isset(self::$__responseInstance))
+        {
+            return self::instance(\Front\Response::class);
+        }else{
+            return self::$__responseInstance;
+        }
     }
 
     public static function input($name = null,$original = false)

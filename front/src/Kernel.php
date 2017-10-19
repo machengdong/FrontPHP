@@ -18,15 +18,6 @@ class Kernel
     {
         try{
 
-            $app_config = Config::get('app');
-            foreach ((array)$app_config as $ack => $acv)
-            {
-                if(!defined(strtoupper($ack)))
-                {
-                    define(strtoupper($ack),$acv);
-                }
-            }
-
             $path_info = Request::getPathInfo();
 
             Routes::dispatch($path_info);

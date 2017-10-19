@@ -15,16 +15,15 @@ class Routes
 {
 
 
-    public static function dispatch_default($routes)
+    public static function dispatch_default($object)
     {
-
         try
         {
-            if(!$routes) self::redirect(404);
+            if(!$object) self::redirect(404);
 
-            list($control,$method) = explode('@',$routes);
+            list($control,$method) = explode('@',$object);
 
-            $result = App::control($control)->$method();
+            App::control($control)->$method();
         }
         catch (\Exception $e)
         {
@@ -37,7 +36,7 @@ class Routes
     {
         try
         {
-            if(!$routes) self::redirect(403);
+            self::redirect(403);
         }
         catch (\Exception $e)
         {
@@ -48,14 +47,12 @@ class Routes
     public static function dispatch($path_info = '')
     {
 
-        $routes = Routes::preParse($path_info,$classify);
-        switch ($classify)
+        $routes = Routes::preParse($path_info,$module);
+        switch ($module)
         {
-            case 'apis':
+            case 'api':
                 Routes::dispatch_apis($routes);
                 break;
-            case 'site':
-            case 'wap':
             default:
                 Routes::dispatch_default($routes);
                 break;
@@ -95,22 +92,25 @@ class Routes
         exit;
     }
 
-    public static function preParse($path_info,&$classify='site')
+    public static function preParse($path_info,&$module='site')
     {
-        if(strpos($path_info,'/api') === 0)
+        $depth = @strpos($path_info,'/',2);
+        if($depth === false)
         {
-            $classify =  'apis';
-            $path_info = substr($path_info,4) ? : '/';
-        }
-        elseif(strpos($path_info,'/wap') === 0)
-        {
-            $classify =  'wap';
-            $path_info = substr($path_info,4) ? : '/';
+            $module = 'site';
+            $target = $path_info;
         }
         else
         {
-            $classify =  'site';
+            $module = substr($path_info,1,$depth-1);
+            $target = substr($path_info,$depth);
         }
+        $routes   = self::load($module);
+        if(@array_key_exists($target,$routes))
+        {
+            return $routes[$target];
+        }
+<<<<<<< HEAD
 
 
         $routes = self::load($classify);
@@ -123,11 +123,14 @@ class Routes
             return null;
         }
 
+=======
+        return null;
+>>>>>>> aa0a2b7f98c35e56626d111f7b040d8f0ab22b76
     }
 
-    private static function load($file_name = 'site')
+    private static function load($scene)
     {
-        return require ROOT_PATH.'/../routes/'.$file_name.'.php';
+        return Config::get("route.{$scene}");
     }
 
 }
