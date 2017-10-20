@@ -19,6 +19,10 @@ class core
     public function boot($response)
     {
         $path_info = Request::getPathInfo();
+        if($this->is_sendfile($path_info,$ext))
+        {
+            return $this->sendFile($response,$path_info,$ext);
+        }
         App::setResponseInstance($response);
         $this->dispatch($path_info,$response);
     }
@@ -58,5 +62,31 @@ class core
     public function dispatch_apis($routes,$response)
     {
         return $response->end('API NOT Found');
+    }
+
+    public function sendFile($response,$path_info,$ext){
+        $response->header('Content-Type',\Front\Misc\Mime::get($ext));
+        $response->sendfile(ROOT_PATH.$path_info);
+        return true;
+    }
+
+    public function is_sendfile($path_info,&$ext=null)
+    {
+        if(defined('ENABLE_STATIC_HANDLER') && ENABLE_STATIC_HANDLER) return false;
+        $ext = pathinfo($path_info,PATHINFO_EXTENSION);
+        switch ($ext)
+        {
+            case 'html':
+            case 'htm':
+            case '':
+            case '/':
+            case 'php':
+                $fruit = false;
+                break;
+            default:
+                $fruit = true;
+                break;
+        }
+        return $fruit;
     }
 }

@@ -11,8 +11,6 @@
  */
 
 
-use Front\Config;
-
 class Server
 {
     public function __construct()
@@ -23,27 +21,20 @@ class Server
         $this->job  = new core();
     }
 
-    public function init()
+    public function init($config)
     {
         $this->http->on("start", function ($server) {
             echo "Swoole http server is started at http://{$this->server_addr}:{$this->server_port}\n";
         });
 
-        $this->http->set([
-            'enable_static_handler' => true,/*设置可以处理静态文件*/
-            'document_root' => DOCUMENT_ROOT,/*设置处理静态文件路径，如：/data/www/static/css*/
-        ]);
+        $this->http->set($config);
         return $this;
     }
 
     public function run()
     {
         $this->http->on('request', function ($request, $response) {
-            /*请求过滤,暂不清楚为什么开启了静态文件处理之后，这里还有这个请求*/
-            if ($request->server['path_info'] == '/favicon.ico' || $request->server['request_uri'] == '/favicon.ico')
-            {
-                return $response->end();
-            }
+
             $request = (array)$request;
             $this->setPost($request);
             $this->setGet($request);
