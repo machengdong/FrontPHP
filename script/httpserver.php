@@ -18,6 +18,7 @@ define('FRAME_PATH',$dir.'/../front');
 define('ROOT_PATH',$dir.'/../public');
 define('APPLY',ROOT_PATH.'/../app');
 define('VIEW_PATH',APPLY.'/view/');
+define('DOCUMENT_ROOT','/static/');
 
 define('SERVER_ADDR','front.ximahe.cn');
 define('SERVER_PORT','8080');
