@@ -13,7 +13,7 @@
 return [
     'default' => [
         'db_host'=>'127.0.0.1',
-        'db_name'=>'demo',
+        'db_name'=>'front.cn',
         'db_user'=>'root',
         'db_pass'=>'root',
     ],
