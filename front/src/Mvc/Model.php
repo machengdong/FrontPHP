@@ -12,7 +12,6 @@
 namespace Front\Mvc;
 
 use Front\Config;
-use Front\Db;
 
 class Model
 {
@@ -20,28 +19,25 @@ class Model
 
     public function __construct()
     {
-       if(!$this->databases)
-       {
-           $this->databases = Config::get('database.default');
-       }
-        Db::getInstance()->connect($this->databases);
+
+        $this->db = \Front\Db::instance();
     }
 
-    public function storage($storage = 'default')
+    public function load($storage = 'default')
     {
-        $dbconfig = Config::get("database.{$storage}");
-
-        if($dbconfig && is_array($dbconfig))
-        {
-            $this->databases = $dbconfig;
-        }
+        $this->db->load($storage);
 
         return $this;
     }
 
-    public function select()
+    public function getList($sql)
     {
-        print_r($this->databases);
-        print_r('this is base model.select');
+        return $this->select($sql);
     }
+
+    public function __call($method, $params)
+    {
+        return call_user_func_array([$this->db, $method], $params);
+    }
+
 }

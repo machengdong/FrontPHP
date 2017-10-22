@@ -11,12 +11,15 @@
  */
 namespace Front;
 
-
 final class Db
 {
     private static $__instance;
 
-    public static function getInstance()
+    private static $__database;
+
+    public $storage;
+
+    public static function instance()
     {
         if(!isset(self::$__instance))
         {
@@ -25,32 +28,32 @@ final class Db
         return self::$__instance;
     }
 
-    public function query($sql)
-    {
 
+    public function load($storage = 'default',$name = false)
+    {
+        if(!isset(self::$__database[$storage]))
+        {
+            $config = Config::get("database.connection");
+            if(!array_key_exists($storage,$config))
+            {
+                //TODO ERROR HANDLE ...
+            }
+            $conn_config = $config[$storage];
+            $driver_class = \Front\Driver\db\Mysqli::class;
+            self::$__database[$storage] = new $driver_class($conn_config);
+        }
+        $this->storage = $storage;
+        return $this;
     }
-    public function execute($sql)
-    {
 
-    }
-    public function count($sql)
-    {
 
-    }
-    public function errorinfo()
+    public function __call($method, $params)
     {
-
-    }
-    public function beginTransaction()
-    {
-
-    }
-    public function commit()
-    {
-
-    }
-    public function rollBack()
-    {
-
+        //TODO There is no use in this step
+        /*if(!isset($this->storage) && !self::$__database['default'])
+        {
+            $this->storage();
+        }*/
+        return call_user_func_array([self::$__database[$this->storage], $method], $params);
     }
 }

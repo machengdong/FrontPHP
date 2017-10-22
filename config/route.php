@@ -14,6 +14,7 @@ return [
        '/'         => '\app\control\site\Home@root',
        '/get.html' => '\app\control\site\Home@getInfo',
        '/v.html' => '\app\control\site\Home@getDesc',
+       '/m.html' => '\app\control\site\Home@getMdebug',
        '/swoole.jsp' => '\app\control\site\Swoole@index',
        ],
    'admin'=> [

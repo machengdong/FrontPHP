@@ -14,7 +14,7 @@ namespace Front\Interfaces;
 interface Dbdriver
 {
     public function connect($config = [], $name = false);
-    public function query($sql);
+    public function select($sql);
     public function execute($sql);
     public function count($sql);
     public function errorinfo();
