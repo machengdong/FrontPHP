@@ -20,17 +20,17 @@ return [
                 'db_user'=>'root',
                 'db_pass'=>'root',
             ],
-            'master' => [
-                'db_host'=>'127.0.0.2',
-                'db_name'=>'demo',
+            'goods' => [
+                'db_host'=>'127.0.0.1',
+                'db_name'=>'front.net',
                 'db_user'=>'root',
                 'db_pass'=>'root',
             ],
-            'standby' => [
-                'db_host'=>'127.0.0.3',
-                'db_name'=>'demo',
+            /*'order' => [
+                'db_host'=>'127.0.0.1',
+                'db_name'=>'front.com',
                 'db_user'=>'root',
                 'db_pass'=>'root',
-            ],
+            ],*/
         ],
 ];

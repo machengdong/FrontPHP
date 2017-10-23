@@ -33,24 +33,32 @@ class Home extends Control
 
     public function getMdebug()
     {
-        $object = App::model(\app\model\Home::class);
-        $result =$object->load()->getList('select * from demo;');
-        var_dump($result);
-        echo "<hr>";
-        $result =$object->load()->getList('select * from demo;');
-        var_dump($result);
-        echo "<hr>";
-        $result =$object->load('standby')->getList('select * from demo;');
-        var_dump($result);
-        echo "<hr>";
-        $result =$object->load('default')->getList('select * from demo;');
-        var_dump($result);
-        echo "<hr>";
-        $result =$object->load('default')->getList('select * from demo;');
-        var_dump($result);
-        echo "<hr>";
 
-        $result =$object->load('xsss')->getList('select * from demo;');
+        $object = App::model(\app\model\Home::class);
+
+        $object->load();
+        $result =$object->getList('select * from demo;');
+        $object->load('zzz');
+        var_dump($result);
+        echo "<hr>";
+        $result =$object->getList('select * from demo;');
+        var_dump($result);
+        echo "<hr>";
+        $result =$object->getList('select * from demo;');
+        var_dump($result);
+        echo "<hr>";
+        $result =$object->getList('select * from demo;');
+        var_dump($result);
+        echo "<hr>";
+        $result =$object->getList('select * from demo;');
+        var_dump($result);
+        echo "<hr>";
+        $object->load();
+        $result =$object->load('goods')->getList('select * from demo;');
+        var_dump($result);
+        echo "<hr>";
+        $result = \Front\Db::instance()->select('select * from demo;');;
+
         var_dump($result);
         echo "<hr>";
     }
