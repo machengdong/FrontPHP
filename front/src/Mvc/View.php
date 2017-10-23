@@ -22,6 +22,10 @@ final class View
     public static function display($file,$data=[])
     {
         if($data)extract($data);
-        include VIEW_PATH.$file;
+
+        if(file_exists(VIEW_PATH.$file))
+            include VIEW_PATH.$file;
+        else
+            exit("VIEW: {$file} Not Found");
     }
 }
