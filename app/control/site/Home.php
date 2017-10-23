@@ -35,29 +35,8 @@ class Home extends Control
     {
 
         $object = App::model(\app\model\Home::class);
-
-        $object->load();
-        $result =$object->getList('select * from demo;');
-        $object->load('zzz');
-        var_dump($result);
-        echo "<hr>";
-        $result =$object->getList('select * from demo;');
-        var_dump($result);
-        echo "<hr>";
-        $result =$object->getList('select * from demo;');
-        var_dump($result);
-        echo "<hr>";
-        $result =$object->getList('select * from demo;');
-        var_dump($result);
-        echo "<hr>";
-        $result =$object->getList('select * from demo;');
-        var_dump($result);
-        echo "<hr>";
-        $object->load();
-        $result =$object->load('goods')->getList('select * from demo;');
-        var_dump($result);
-        echo "<hr>";
-        $result = \Front\Db::instance()->select('select * from demo;');;
+        echo "<pre>";
+        $result = $object->table('demo')->getList('*',['id'=>[1,2,3]]);;
 
         var_dump($result);
         echo "<hr>";

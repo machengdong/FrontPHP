@@ -85,7 +85,7 @@ class Mysqli implements Dbdriver
     }
     public function errorinfo()
     {
-        return mysqli_errno($this->link);
+        return true;
     }
     public function beginTransaction()
     {

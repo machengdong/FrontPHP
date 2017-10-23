@@ -50,7 +50,16 @@ class Model
 
     public function getList($cols = '*',$filter = [],$offset = 0,$limit = PHP_INT_MAX,$orderby = null)
     {
-        return [];
+        $filter = $this->_filter($filter);
+        $sql = "SELECT {$cols} FROM {$this->table_name} WHERE {$filter} LIMIT {$offset},{$limit};";
+        $fruit = Db::instance()->select($sql);
+        return $fruit;
+    }
+
+    public function getRow($cols = '*',$filter = [])
+    {
+        $fruit = $this->getList($cols,$filter,0,1);
+        return $fruit ? $fruit[0] : [];
     }
 
     protected function _filter($filter)
@@ -62,7 +71,12 @@ class Model
            {
                $where[] = $k . ' IN (' . implode(',',$v).')';
            }
+           elseif (strpos($k,'|') === false && !empty($v))
+           {
+               $where[] = $k . " = '{$v}'";
+           }//TODO
         }
+        return implode(' AND ',$where);
     }
 
     public function __call($method, $params)

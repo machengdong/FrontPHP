@@ -28,7 +28,6 @@ final class Db
         return self::$__instance;
     }
 
-
     public function load($storage = 'default',$name = false)
     {
         if(!isset(self::$__database[$storage]))
@@ -50,10 +49,8 @@ final class Db
     public function __call($method, $params)
     {
         //TODO There is no use in this step
-        /*if(!isset($this->storage) && !self::$__database['default'])
-        {
-            $this->storage();
-        }*/
+        if(!isset($this->storage) && !self::$__database['default']) $this->load();
+
         return call_user_func_array([self::$__database[$this->storage], $method], $params);
     }
 }
