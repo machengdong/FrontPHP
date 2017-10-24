@@ -55,6 +55,10 @@ final class Db
 
     public function insert(&$data,$replace = false)
     {
+        //TODO There is no use in this step
+        if(!isset($this->storage) && !self::$__database['default']) $this->load();
+
+
         $sql = $this->preHandleInsert($data,$replace);
         $result = self::$__database[$this->storage]->execute($sql);
         return $result;
@@ -76,7 +80,12 @@ final class Db
 
     public function update(&$data,$filter)
     {
+        //TODO There is no use in this step
+        if(!isset($this->storage) && !self::$__database['default']) $this->load();
+
+
         $sql = $this->preHandleUpdate($data,$filter);
+
         $result = self::$__database[$this->storage]->execute($sql);
         return $result;
     }

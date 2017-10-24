@@ -28,5 +28,6 @@ return [
             '/doc/publish.html'=>'\app\control\admin\Document@publish',
             '/doc/dopublish.html'=>'\app\control\admin\Document@doPublish',
             '/doc/list.html'=>'\app\control\admin\Document@docList',
+            '/doc/update/status.html'=>'\app\control\admin\Document@update',
        ],
 ];
