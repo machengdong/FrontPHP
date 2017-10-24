@@ -24,7 +24,8 @@ final class Dbman
     public function __construct()
     {
         $pm = php_sapi_name();
-        self::$conf = \Front\Config::get('database.default');
+        $database = \Front\Config::get('database.connection');
+        self::$conf = $database['default'];
         $this->datatypes = \Front\Misc\Datatypes::get();
         //if($pm != 'cli') exit('Have no right to access !');
         $this->db_lnk = $this->_connect(self::$conf['db_host'],self::$conf['db_user'],self::$conf['db_pass'],self::$conf['db_name']);

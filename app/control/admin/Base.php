@@ -17,17 +17,14 @@ use Front\App;
 
 class Base extends Control
 {
-    public function root()
+    public function __construct()
     {
-        $this->display('home.php');
-    }
-
-    public function getInfo()
-    {
-        $this->display('info.php');
-    }
-    public function getDesc()
-    {
-        $this->display('desc.php');
+        /** 后台基础控制器 */
+        $userMdl = App::model(\app\model\User::class);
+        if(!$userMdl->isLogin($userInfo))
+        {
+            \Front\Routes::redirect(302,'/admin/login.html');
+        }
+        $this->userInfo = $userInfo;
     }
 }

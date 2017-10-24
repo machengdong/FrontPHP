@@ -14,22 +14,28 @@ namespace app\control\admin;
 use Front\Mvc\Control;
 use Front\App;
 
-
-
 class Passport extends Control
 {
+    /** 后台登陆入口 */
     public function index()
     {
-        //exit('admin.index');
         $this->display('admin/login.php');
     }
 
-    public function getInfo()
+    /** 后台登陆地址 */
+    public function login()
     {
-        $this->display('info.php');
+        $userMdl = new \app\model\User();
+        $result = $userMdl->login(App::input(),$msg);
+
+        exit(json_encode(['code'=>$result ? 'succ' : 'fail','msg'=>$msg]));
     }
-    public function getDesc()
+
+    /** 退出登陆 */
+    public function logout()
     {
-        $this->display('desc.php');
+        $userMdl = new \app\model\User();
+        $userMdl->logout();
+        \Front\Routes::redirect(302,'/admin/login.html');
     }
 }

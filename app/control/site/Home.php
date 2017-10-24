@@ -34,6 +34,12 @@ class Home extends Control
     public function getMdebug()
     {
 
+        $object = new \Front\Driver\cache\File;
+        $object->set('zaq',1234567);
+
+        var_dump($object->get('zaq'));
+        die;
+
         $object = App::model(\app\model\Home::class);
         echo "<pre>";
         $result = $object->table('demo')->getRow('*',['id'=>[1,2,3],'__sql__'=>"(start_status = 'Y' or login_status = 'N')"]);

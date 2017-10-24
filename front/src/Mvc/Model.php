@@ -26,7 +26,7 @@ class Model
         if(!$this->table_name)
         {
             $name = get_class($this);
-            $this->table_name = substr($name,strrpos($name,'\\')+1);
+            $this->table_name = strtolower(substr($name,strrpos($name,'\\')+1));
         }
 
         if(!$this->databases)

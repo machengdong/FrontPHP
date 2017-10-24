@@ -132,7 +132,7 @@ final class Db
 
     public function table($table_name = null)
     {
-        $this->table_name = $table_name;
+        $this->table_name = '`'.$table_name.'`';
 
         return $this;
     }
@@ -160,7 +160,7 @@ final class Db
     {
         $sql = $this->preHandleSelect($cols);
         if(!isset($this->storage) && !self::$__database['default']) $this->load();
-        echo "<br/>".$sql."<br/>";
+        //echo "<br/>".$sql."<br/>";
         $result = self::$__database[$this->storage]->select($sql);
         return $result;
     }

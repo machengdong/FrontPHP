@@ -112,7 +112,7 @@ return array(
                     'method' => '',
                     'fields' =>
                         array(
-                            0 => 'account',
+                            0 => 'member_name',
                             1 => 'password',
                         ),
                 ),

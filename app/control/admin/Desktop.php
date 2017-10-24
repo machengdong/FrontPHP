@@ -11,12 +11,10 @@
  */
 namespace app\control\admin;
 
-use Front\Mvc\Control;
-use Front\App;
 use Front\Config;
 
 
-class Desktop extends Control
+class Desktop extends Base
 {
     public function index()
     {
@@ -25,7 +23,10 @@ class Desktop extends Control
 
     public function getTop()
     {
-        $this->display('admin/base/_top.php');
+        $pagedata = [];
+        $pagedata['username'] = $this->userInfo['admin_user_username'];
+        $pagedata['logouturl'] = "/admin/logout.html";
+        $this->display('admin/base/_top.php',$pagedata);
     }
     public function getLeft()
     {
