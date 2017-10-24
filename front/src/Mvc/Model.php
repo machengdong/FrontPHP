@@ -28,6 +28,11 @@ class Model
             $name = get_class($this);
             $this->table_name = substr($name,strrpos($name,'\\')+1);
         }
+
+        if(!$this->databases)
+        {
+            $this->databases = Db::instance();
+        }
     }
 
 
@@ -37,51 +42,27 @@ class Model
         return $this;
     }
 
-    public function getTableName()
-    {
-        return $this->table_name;
-    }
-
     public function load($storage = 'default',$name = false)
     {
-        Db::instance()->load($storage,$name);
+        $this->databases->load($storage,$name);
         return $this;
     }
 
     public function getList($cols = '*',$filter = [],$offset = 0,$limit = PHP_INT_MAX,$orderby = null)
     {
-        $filter = $this->_filter($filter);
-        $sql = "SELECT {$cols} FROM {$this->table_name} WHERE {$filter} LIMIT {$offset},{$limit};";
-        $fruit = Db::instance()->select($sql);
-        return $fruit;
+        return $this->databases->table($this->table_name)->where($filter)->limit($limit,$offset)->order($orderby)->get($cols);
     }
 
     public function getRow($cols = '*',$filter = [])
     {
-        $fruit = $this->getList($cols,$filter,0,1);
-        return $fruit ? $fruit[0] : [];
-    }
-
-    protected function _filter($filter)
-    {
-        $where = [1];
-        foreach ((array)$filter as $k=>$v)
-        {
-           if(!empty($v) && is_array($v))
-           {
-               $where[] = $k . ' IN (' . implode(',',$v).')';
-           }
-           elseif (strpos($k,'|') === false && !empty($v))
-           {
-               $where[] = $k . " = '{$v}'";
-           }//TODO
-        }
-        return implode(' AND ',$where);
+        $result = $this->getList($cols,$filter,0,1);
+        if(!empty($result) && isset($result[0])) return $result[0];
+        return [];
     }
 
     public function __call($method, $params)
     {
-        return call_user_func_array([Db::instance(), $method], $params);
+        return call_user_func_array([$this->databases, $method], $params);
     }
 
 }
