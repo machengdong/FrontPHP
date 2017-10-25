@@ -18,9 +18,15 @@ final class View
 
     private static $disable_functions = [];
 
-    public function __construct()
-    {
+    private static $__instance;
 
+    public static function instance()
+    {
+        if(!isset(self::$__instance))
+        {
+            self::$__instance = new self();
+        }
+        return self::$__instance;
     }
 
     public function display($file,$data=[])
@@ -35,7 +41,6 @@ final class View
                     ob_start();
                     eval(self::$end_mark.$file_content);
                     $result = ob_get_clean();
-                    //var_dump($result);
                     return $result;
                 }
             }
@@ -43,10 +48,6 @@ final class View
         {
 
         }
-        /*if(file_exists(VIEW_PATH.$file))
-            include VIEW_PATH.$file;
-        else
-            exit("VIEW: {$file} Not Found");*/
     }
 
     private function __checkFile($file_content)

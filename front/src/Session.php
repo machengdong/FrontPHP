@@ -13,116 +13,66 @@ namespace Front;
 
 class Session
 {
-    protected static $init   = null;
+    private static $init;
+    private static $sess_id;
+    private static $storage;
 
-    protected static $start;
-
-    public static function init(array $config = [])
+    public static function init()
     {
-        $_start = true;
-        // session驱动
-        $class = \Front\Driver\session\File::class;
-
-        session_name(SESSION_NAME);
-        // 检查驱动类
-        if (!class_exists($class) || !session_set_save_handler(new $class())) {
-            //todo
-        }
-        //session_start();
-        //self::$init = true;
-        if ($_start && !SWOOLE_SERVER) {
-            session_start();
-            self::$init = true;
-        } else {
-            self::$init = false;
-        }
-    }
-
-    public static function boot()
-    {
-        if (is_null(self::$init)) {
-            self::init();
-        } elseif (false === self::$init && SWOOLE_SERVER) {
-            if (PHP_SESSION_ACTIVE != session_status()) {
-                session_start();
-            }
-            self::$init = true;
-        }
+        self::$storage = Cache::instance();
+        self::get_sess_id();
+        self::$init = true;
     }
 
     public static function set($name, $value = '')
     {
-        empty(self::$init) && self::boot();
-
+        isset(self::$init) or self::init();
         $_SESSION[$name] = $value;
-
-        SWOOLE_SERVER && self::__start()->write();
+        self::$storage->set(self::$sess_id,$_SESSION);
     }
 
     public static function get($name = '')
     {
-        empty(self::$init) && self::boot();
-
-        SWOOLE_SERVER && self::__start()->read();
-
-        $value = isset($_SESSION[$name]) ? $_SESSION[$name] : null;
-
-        return $value;
-    }
-
-    public static function pull($name)
-    {
-        $result = self::get($name);
-        if ($result) {
-            self::delete($name);
-            return $result;
-        } else {
-            return;
-        }
+        isset(self::$init) or self::init();
+        $_SESSION = self::$storage->get(self::$sess_id);
+        return $_SESSION[$name];
     }
 
     public static function delete($name)
     {
-        empty(self::$init) && self::boot();
-
-        unset($_SESSION[$name]);
+        return true;
     }
 
     public static function clear()
     {
-        empty(self::$init) && self::boot();
-
-        $_SESSION = [];
-
+        isset(self::$init) or self::init();
+        self::$storage->delete(self::$sess_id);
+        unset($_SESSION);
+        return true;
     }
 
-    public static function start()
+    private static function gen_sess_id()
     {
-        session_start();
-        self::$init = true;
+        return md5(microtime(true).uniqid('',true).mt_rand(0,99999));
     }
 
-    public static function destroy()
+    public static function get_sess_id()
     {
-        if (!empty($_SESSION)) {
-            $_SESSION = [];
+        if(isset($_GET[SESSION_NAME]) && $_GET[SESSION_NAME])
+        {
+            self::$sess_id = $_GET[SESSION_NAME];
         }
-        session_unset();
-        session_destroy();
-        self::$init = null;
-    }
-
-    public static function pause()
-    {
-        // 暂停session
-        session_write_close();
-        self::$init = false;
-    }
-
-    private static function __start()
-    {
-        if(!isset(self::$start))
-            self::$start = new \Front\Driver\session\Custom();
-        return self::$start;
+        elseif (isset($_COOKIE[SESSION_NAME]) && $_COOKIE[SESSION_NAME])
+        {
+            self::$sess_id = $_COOKIE[SESSION_NAME];
+        }elseif (isset($_POST[SESSION_NAME]) && $_POST[SESSION_NAME])
+        {
+            self::$sess_id = $_POST[SESSION_NAME];
+        }else
+        {
+            self::$sess_id = self::gen_sess_id();
+            \Front\Cookie::set(SESSION_NAME,self::$sess_id,time() + 60*60*24*7);
+        }
+        return self::$sess_id;
     }
 }

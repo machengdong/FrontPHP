@@ -42,6 +42,20 @@ class File
         return null;
     }
 
+    public static function delete($key)
+    {
+        !empty($secache) or self::init();
+
+        self::$secache->delete(self::getKey($key));
+    }
+
+    public static function clear()
+    {
+        !empty($secache) or self::init();
+
+        self::$secache->clear();
+    }
+
     private static function getKey($key)
     {
         return md5((string)$key);
