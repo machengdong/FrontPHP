@@ -20,11 +20,13 @@ define('VIEW_PATH',APPLY.'/view/');
 
 define('DOCUMENT_ROOT','/static/');
 
+define('SESSION_NAME','__t__');
+
 //---- swoole http server ----\\
-define('SERVER_ADDR','127.0.0.1');
+define('SERVER_ADDR','172.16.130.130');
 
 define('SERVER_PORT','8080');
 
-define('SWOOLE_SERVER',true);
+define('SWOOLE_SERVER',false);
 
 define('ENABLE_STATIC_HANDLER',false);

@@ -15,18 +15,22 @@ class Session
 {
     protected static $init   = null;
 
+    protected static $start;
+
     public static function init(array $config = [])
     {
         $_start = true;
         // session驱动
         $class = \Front\Driver\session\File::class;
+
+        session_name(SESSION_NAME);
         // 检查驱动类
         if (!class_exists($class) || !session_set_save_handler(new $class())) {
             //todo
         }
         //session_start();
         //self::$init = true;
-        if ($_start) {
+        if ($_start && !SWOOLE_SERVER) {
             session_start();
             self::$init = true;
         } else {
@@ -38,7 +42,7 @@ class Session
     {
         if (is_null(self::$init)) {
             self::init();
-        } elseif (false === self::$init) {
+        } elseif (false === self::$init && SWOOLE_SERVER) {
             if (PHP_SESSION_ACTIVE != session_status()) {
                 session_start();
             }
@@ -51,11 +55,15 @@ class Session
         empty(self::$init) && self::boot();
 
         $_SESSION[$name] = $value;
+
+        SWOOLE_SERVER && self::__start()->write();
     }
 
     public static function get($name = '')
     {
         empty(self::$init) && self::boot();
+
+        SWOOLE_SERVER && self::__start()->read();
 
         $value = isset($_SESSION[$name]) ? $_SESSION[$name] : null;
 
@@ -109,5 +117,12 @@ class Session
         // 暂停session
         session_write_close();
         self::$init = false;
+    }
+
+    private static function __start()
+    {
+        if(!isset(self::$start))
+            self::$start = new \Front\Driver\session\Custom();
+        return self::$start;
     }
 }

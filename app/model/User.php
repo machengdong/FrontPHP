@@ -52,6 +52,8 @@ class User extends Model
         {
             \Front\Session::set($v,'');
         }
+        unset($_COOKIE[SESSION_NAME]);
+        \Front\Cookie::set(SESSION_NAME,'',time()-1);
         return true;
     }
 
