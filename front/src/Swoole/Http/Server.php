@@ -10,6 +10,7 @@
  *
  */
 
+namespace Front\Swoole\Http;
 
 class Server
 {
@@ -17,8 +18,8 @@ class Server
     {
         $this->server_addr = defined('SERVER_ADDR') ? SERVER_ADDR : '127.0.0.1';
         $this->server_port = defined('SERVER_PORT') ? SERVER_PORT : '80';
-        $this->http = new swoole_http_server($this->server_addr, $this->server_port);
-        $this->job  = new core();
+        $this->http = new \swoole_http_server($this->server_addr, $this->server_port);
+        $this->job  = new Work();
     }
 
     public function init($config)
@@ -36,6 +37,7 @@ class Server
         $this->http->on('request', function ($request, $response) {
 
             $request = (array)$request;
+            //var_dump($request);
             $this->setPost($request);
             $this->setGet($request);
             $this->setServer($request);
@@ -48,29 +50,29 @@ class Server
         $this->http->start();
     }
 
-    public function setPost(array $request)
+    public function setPost($request)
     {
-        $_POST = $request['post'];
+        $_POST = (array)$request['post'];
     }
 
-    public function setGet(array $request)
+    public function setGet($request)
     {
-        $_GET = $request['get'];
+        $_GET = (array)$request['get'];
     }
 
-    public function setCookie(array $request)
+    public function setCookie($request)
     {
-        $_COOKIE = $request['cookie'];
+        $_COOKIE = (array)$request['cookie'];
     }
 
-    public function setFile(array $request)
+    public function setFile($request)
     {
-        $_FILES = $request['files'];
+        $_FILES = (array)$request['files'];
     }
 
-    public function setServer(array $request)
+    public function setServer($request)
     {
-        foreach ($request['server'] as $k=>$v)
+        foreach ((array)$request['server'] as $k=>$v)
         {
             $_SERVER[strtoupper($k)] = $v;
         }

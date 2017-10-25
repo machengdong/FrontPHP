@@ -59,7 +59,7 @@ class Http
     public static function get($key = null)
     {
         if($key == '')return self::$table;
-        if(array_key_exists($key,self::$table[$key])) return self::$table[$key];
+        if(array_key_exists($key,self::$table)) return self::$table[$key];
         return null;
     }
 }

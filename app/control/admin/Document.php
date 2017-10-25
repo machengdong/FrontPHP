@@ -16,24 +16,27 @@ class Document extends Base
 {
     public function publish()
     {
-        $this->display('admin/doc/add.php');
+        return $this->display('admin/doc/add.php');
     }
 
     public function docList()
     {
         $docMdl = App::model(\app\model\Document::class);
         $result = $docMdl->getList('*');
-        $this->display('admin/doc/list.php',['result'=>$result]);
+        return $this->display('admin/doc/list.php',['result'=>$result]);
     }
 
     public function doPublish()
     {
         $docMdl = App::model(\app\model\Document::class);
+        //var_dump(App::input());
         if($docMdl->savedoc(App::input(),$err))
         {
-            exit(json_encode(['code'=>'succ','msg'=>'发布成功，继续发布！']));
+            return ['code'=>'succ','msg'=>'发布成功，继续发布！'];
         }
-        exit(json_encode(['code'=>'fail','msg'=>'发布失败！'.$err]));
+
+        return ['code'=>'fail','msg'=>'发布失败！'.$err];
+
     }
 
     public function update()
@@ -41,6 +44,6 @@ class Document extends Base
         $docMdl = App::model(\app\model\Document::class);
         $data = ['start_status' => (App::input('u') == 'N' ? 'Y' : 'N')];
         $docMdl->databases->table($docMdl->table_name)->update($data,['doc_id'=>App::input('id')]);
-        \Front\Routes::redirect(302,'/admin/doc/list.html');
+        \Front\Response::redirect(302,'/admin/doc/list.html');
     }
 }

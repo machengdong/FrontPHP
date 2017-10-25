@@ -19,16 +19,16 @@ class Home extends Control
 {
     public function root()
     {
-        $this->display('site/home.php');
+        return $this->display('site/home.php');
     }
 
     public function getInfo()
     {
-        $this->display('site/info.php');
+        return $this->display('site/info.php');
     }
     public function getDesc()
     {
-        $this->display('site/desc.php');
+        return $this->display('site/desc.php');
     }
 
     public function getMdebug()

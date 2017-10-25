@@ -21,6 +21,7 @@ class Control
 
     public function display($file,$data=[])
     {
-        View::display($file,$data);
+        $object = new \Front\Mvc\View();
+        return $object->display($file,$data);
     }
 }

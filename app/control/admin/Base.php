@@ -23,7 +23,8 @@ class Base extends Control
         $userMdl = App::model(\app\model\User::class);
         if(!$userMdl->isLogin($userInfo))
         {
-            \Front\Routes::redirect(302,'/admin/login.html');
+            //var_dump('xsassdas');
+            \Front\Response::redirect(302,'/admin/login.html');
         }
         $this->userInfo = $userInfo;
     }

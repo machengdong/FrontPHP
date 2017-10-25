@@ -53,7 +53,7 @@ class App
     {
         if(!isset(self::$__responseInstance))
         {
-            return self::instance(\Front\Response::class);
+            return self::instance(\Front\Driver\Response\Response::class);
         }else{
             return self::$__responseInstance;
         }
@@ -65,6 +65,7 @@ class App
         {
             $data = file_get_contents("php://input");
         }else{
+            //$_GET['PATH_INFO'] = $_SERVER['PATH_INFO'];/** swoole 拿不到get时，最好用这个 */
             $data = array_merge($_GET,$_POST);
         }
 

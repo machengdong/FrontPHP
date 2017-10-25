@@ -26,7 +26,7 @@ class Desktop extends Base
         $pagedata = [];
         $pagedata['username'] = $this->userInfo['admin_user_username'];
         $pagedata['logouturl'] = "/admin/logout.html";
-        $this->display('admin/base/_top.php',$pagedata);
+        return $this->display('admin/base/_top.php',$pagedata);
     }
     public function getLeft()
     {
@@ -34,6 +34,6 @@ class Desktop extends Base
         $data = [
             'menu' => $menus,
         ];
-        $this->display('admin/base/_left.php',$data);
+        return $this->display('admin/base/_left.php',$data);
     }
 }

@@ -19,11 +19,17 @@ class Routes
     {
         try
         {
-            if(!$object) self::redirect(404);
+            if(!$object) Response::redirect(302,'/404.html');
 
             list($control,$method) = explode('@',$object);
 
-            App::control($control)->$method();
+            $output = App::control($control)->$method();
+
+            if(!empty($output) && is_array($output))
+            {
+                $output = json_encode($output);
+            }
+            Response::end($output);
         }
         catch (\Exception $e)
         {
@@ -34,19 +40,11 @@ class Routes
 
     public static function dispatch_apis($routes)
     {
-        try
-        {
-            self::redirect(403);
-        }
-        catch (\Exception $e)
-        {
-
-        }
+        Response::redirect(302,'/404.html');
     }
 
     public static function dispatch($path_info = '')
     {
-
         $routes = Routes::preParse($path_info,$module);
         switch ($module)
         {
@@ -57,39 +55,6 @@ class Routes
                 Routes::dispatch_default($routes);
                 break;
         }
-    }
-
-    public static function redirect($status = 302,$url = '')
-    {
-        switch($status)
-        {
-            case 302:
-                ob_end_flush();
-                @header("Location: {$url}");
-                break;
-            case 301:
-                ob_end_flush();
-                @header('HTTP/1.1 301 Moved Permanently');
-                @header("Location: {$url}");
-                break;
-            case 404:
-                ob_end_flush();
-                @header("http/1.1 404 Not Found");
-                @header("status: 404 Not Found");
-                if(file_exists(ROOT_PATH.'/404.html'))
-                {
-                    include ROOT_PATH.'/404.html';
-                }
-                break;
-            case 403:
-                ob_end_flush();
-                @header("http/1.1 403 Forbidden");
-                @header("status: 403 Forbidden");
-                break;
-            default:
-                break;
-        }
-        exit;
     }
 
     public static function preParse($path_info,&$module='site')

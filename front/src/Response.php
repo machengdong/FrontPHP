@@ -14,19 +14,17 @@ namespace Front;
 
 class Response
 {
-    public function header()
+    public static function redirect($status = 302,$url = '/')
     {
-        return true;
+        $responseInstance = \Front\App::getResponseInstance();
+        $responseInstance->status($status);
+        $responseInstance->header("Location",$url);
+        return $responseInstance->end('');
     }
 
-    public function cookie($name=null,$value=null,$expire=0,$path='/',$domain=null,$secure=false)
+    public static function end($string = '')
     {
-        setcookie($name,$value,$expire,$path,$domain,$secure);
-    }
-
-    public function status($code = 200)
-    {
-
-        header(\Front\Misc\Http::get($code));
+        $responseInstance = \Front\App::getResponseInstance();
+        return $responseInstance->end($string);
     }
 }

@@ -19,7 +19,7 @@ class Passport extends Control
     /** 后台登陆入口 */
     public function index()
     {
-        $this->display('admin/login.php');
+        return $this->display('admin/login.php');
     }
 
     /** 后台登陆地址 */
@@ -28,7 +28,7 @@ class Passport extends Control
         $userMdl = new \app\model\User();
         $result = $userMdl->login(App::input(),$msg);
 
-        exit(json_encode(['code'=>$result ? 'succ' : 'fail','msg'=>$msg]));
+        return ['code'=>$result ? 'succ' : 'fail','msg'=>$msg];
     }
 
     /** 退出登陆 */
@@ -36,6 +36,6 @@ class Passport extends Control
     {
         $userMdl = new \app\model\User();
         $userMdl->logout();
-        \Front\Routes::redirect(302,'/admin/login.html');
+        \Front\Response::redirect(302,'/admin/login.html');
     }
 }
