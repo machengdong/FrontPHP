@@ -18,7 +18,7 @@ class Desktop extends Base
 {
     public function index()
     {
-        $this->display('admin/base/desktop.php');
+        return $this->display('admin/base/desktop.php');
     }
 
     public function getTop()

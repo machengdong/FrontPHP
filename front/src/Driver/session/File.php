@@ -27,7 +27,7 @@ class File extends \SessionHandler
 
     public function read($sess_id)
     {
-        $fruit =  \Front\Driver\cache\File::get($sess_id);error_log(print_r($data,1).PHP_EOL,3,ROOT_PATH.'/ZAQ123');
+        $fruit =  \Front\Driver\cache\File::get($sess_id);
         return $fruit;
     }
 
