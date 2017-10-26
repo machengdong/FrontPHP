@@ -34,6 +34,40 @@ class Home extends Control
     public function getMdebug()
     {
 
+
+        $object = App::model(\app\model\Home::class);
+
+        $result = \Front\Db::instance()->table('sysinfo')->get();
+        $datay = [];
+        foreach ($result as $k=>$v)
+        {
+            $datay[] = date('y-m-d H:i:s',$v['date']);
+        }
+        $legend = ['usememp','usecpup','gd_usep','dd_usep'];
+        $data = [];
+        $datay = [];
+        foreach ($legend as $v)
+        {
+            $row = [];
+            $row['name'] = $v;
+            $row['type'] = 'line';
+            $row['stack'] = '总量';
+            foreach ($result as $rows)
+            {
+                $row['data'][] = $rows[$v];
+            }
+            $data[] = $row;
+
+        }
+        return $data;
+
+
+
+
+
+
+var_dump($result);die;
+
         $object = new \Front\Driver\cache\File;
         $object->set('zaq',1234567);
 

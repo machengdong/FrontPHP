@@ -132,11 +132,11 @@ if(!function_exists('readline')){
         }
     }
     function readline_add_history($line){
-        //error_log($line.PHP_EOL,3,'/tmp/zaq');
+        !empty($line) && Log::history($line);
     }
     function readline_list_history(){
-        echo "功能完善中...\n";
-        //print_r(file_get_contents('/tmp/zaq'));
+        $logfile = DATA_PATH . '/logs/history.php';
+        if(file_exists($logfile)) print_r(file_get_contents($logfile));
     }
     function readline_write_history($file){}
     function readline_completion_function($callback){}

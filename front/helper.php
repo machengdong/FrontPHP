@@ -12,6 +12,36 @@
 
 if(!function_exists('dump'))
 {
+    /**
+     * 获取客户端IP
+     *
+     * @return bool
+     */
+    function getIp()
+    {
+        return \Front\Request::getIp();
+    }
+
+    function mkdir_p($dir,$dirmode=0755){
+        $path = explode('/',str_replace('\\','/',$dir));
+        $depth = count($path);
+        for($i=$depth;$i>0;$i--){
+            if(file_exists(implode('/',array_slice($path,0,$i)))){
+                break;
+            }
+        }
+        for($i=0;$i<$depth;$i++){
+            if($d= implode('/',array_slice($path,0,$i+1))){
+                if(!is_dir($d)) mkdir($d,$dirmode);
+            }
+        }
+        return is_dir($dir);
+    }
+
+    /**
+     * @param array $data
+     * @param bool $exit
+     */
     function dump($data = [],$exit = false)
     {
         ob_start();

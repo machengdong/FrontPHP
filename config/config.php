@@ -20,6 +20,8 @@ define('VIEW_PATH',APPLY.'/view/');
 
 define('DOCUMENT_ROOT','/static/');
 
+define('DATA_PATH',ROOT_PATH.'/../data');
+
 define('SESSION_NAME','__t__');
 
 //---- swoole http server ----\\
