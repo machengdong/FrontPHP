@@ -10,34 +10,79 @@
  *
  */
 
+/**
+ * 获取客户端IP
+ *
+ * @return bool
+ */
+function getIp()
+{
+    return \Front\Request::getIp();
+}
+
+/**
+ * 递归创建文件夹
+ *
+ * @param $dir
+ * @param int $dirmode
+ * @return bool
+ */
+function mkdir_p($dir,$dirmode = 0755){
+    $path = explode('/',str_replace('\\','/',$dir));
+    $depth = count($path);
+    for($i=$depth;$i>0;$i--){
+        if(file_exists(implode('/',array_slice($path,0,$i)))){
+            break;
+        }
+    }
+    for($i=0;$i<$depth;$i++){
+        if($d= implode('/',array_slice($path,0,$i+1))){
+            if(!is_dir($d)) mkdir($d,$dirmode);
+        }
+    }
+    return is_dir($dir);
+}
+
+if(!function_exists('readline')){
+    function readline($prompt){
+        echo $prompt;
+        $input = '';
+        while(1){
+            $key = fgetc(STDIN);
+            switch($key){
+                case "\n":
+                    return $input;
+                default:
+                    $input .= $key;
+            }
+        }
+    }
+}
+
+if(!function_exists('readline_add_history')){
+    function readline_add_history($line){
+        !empty($line) && \Front\Log::history($line);
+    }
+}
+
+if(!function_exists('readline_write_history')){
+    function readline_write_history($file){}
+}
+
+if(!function_exists('readline_completion_function')){
+    function readline_completion_function($callback){}
+}
+
+if(!function_exists('readline_list_history')) {
+    function readline_list_history()
+    {
+        $logfile = DATA_PATH . '/logs/history.php';
+        if (file_exists($logfile)) print_r(file_get_contents($logfile));
+    }
+}
+
 if(!function_exists('dump'))
 {
-    /**
-     * 获取客户端IP
-     *
-     * @return bool
-     */
-    function getIp()
-    {
-        return \Front\Request::getIp();
-    }
-
-    function mkdir_p($dir,$dirmode=0755){
-        $path = explode('/',str_replace('\\','/',$dir));
-        $depth = count($path);
-        for($i=$depth;$i>0;$i--){
-            if(file_exists(implode('/',array_slice($path,0,$i)))){
-                break;
-            }
-        }
-        for($i=0;$i<$depth;$i++){
-            if($d= implode('/',array_slice($path,0,$i+1))){
-                if(!is_dir($d)) mkdir($d,$dirmode);
-            }
-        }
-        return is_dir($dir);
-    }
-
     /**
      * @param array $data
      * @param bool $exit

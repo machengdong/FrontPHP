@@ -116,28 +116,3 @@ class Shell
         ];
     }
 }
-
-if(!function_exists('readline')){
-    function readline($prompt){
-        echo $prompt;
-        $input = '';
-        while(1){
-            $key = fgetc(STDIN);
-            switch($key){
-                case "\n":
-                    return $input;
-                default:
-                    $input .= $key;
-            }
-        }
-    }
-    function readline_add_history($line){
-        !empty($line) && Log::history($line);
-    }
-    function readline_list_history(){
-        $logfile = DATA_PATH . '/logs/history.php';
-        if(file_exists($logfile)) print_r(file_get_contents($logfile));
-    }
-    function readline_write_history($file){}
-    function readline_completion_function($callback){}
-}
