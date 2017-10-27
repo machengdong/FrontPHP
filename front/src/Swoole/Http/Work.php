@@ -19,7 +19,7 @@ use Front\Routes;
 class Work
 {
     private static $extension = ['html','htm','php','/',''];
-    private static $base_name = ['404.html','502.html','index.html'];
+    private static $base_name = ['404.html','502.html'];
 
     public function boot($response)
     {
@@ -30,7 +30,7 @@ class Work
             return $this->sendFile($response,$path_info,$ext);
         }
         App::setResponseInstance($response);
-        Routes::dispatch($path_info);
+        \Front\Kernel::boot($path_info);
     }
 
     static public function preHandle($path_info)

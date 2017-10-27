@@ -11,6 +11,8 @@
  */
 namespace Front;
 
+use think\Exception;
+
 class Routes
 {
 
@@ -33,7 +35,7 @@ class Routes
         }
         catch (\Exception $e)
         {
-            return $e->getMessage();
+           \Front\Kernel::exceptionHandle($e);
         }
 
     }

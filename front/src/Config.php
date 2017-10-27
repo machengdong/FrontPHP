@@ -19,8 +19,7 @@ class Config
         list($files,$item) = self::parseKey($key);
         $config_info = self::load($files);
         if(!$item) return $config_info;
-        $result = $config_info[$item];
-        if($result) return $result;
+        if(array_key_exists($item,$config_info)) return $config_info[$item];
         return $default;
     }
 
