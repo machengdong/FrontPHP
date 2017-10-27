@@ -2,7 +2,6 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title></title>
-    <link type="text/css" href="_CSS_/admin/desktop.css" rel="stylesheet">
     <style>
         .center {
             position: fixed;

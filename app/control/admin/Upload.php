@@ -19,8 +19,8 @@ class Upload extends Base
         $upObject = new \app\library\Upload();
         if($upObject->upload('member_img'))
         {
-            var_dump($upObject->getFileName());
+            return $upObject->getFileName();
         }
-        var_dump($upObject->getErrorMsg());
+        return $upObject->getErrorMsg();
     }
 }

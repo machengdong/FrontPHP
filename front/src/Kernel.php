@@ -32,7 +32,7 @@ class Kernel
     }
 
 
-    public function applyError($errno, $errstr, $errfile, $errline)
+    public static function applyError($errno, $errstr, $errfile, $errline)
     {
         if (!(error_reporting() & $errno))
         {
@@ -55,6 +55,7 @@ class Kernel
         {
             $html .= "<div>File: {$item['file']} Function: {$item['function']} Line: {$item['line']}</div>";
         }
+
         \Front\Response::end($html);
     }
 }

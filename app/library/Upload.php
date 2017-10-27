@@ -217,7 +217,8 @@ class Upload
     /* 检查是否有存放上传文件的目录 */
     private function checkFilePath() {
         $this->__basepath = $this->__basepath.date('Ymd');
-        if(!is_dir(dirname($this->__basepath))) mkdir_p($this->__basepath);
+        //var_dump(dirname($this->__basepath));
+        if(!is_dir($this->__basepath)) mkdir_p($this->__basepath);
         return true;
     }
 
@@ -231,6 +232,7 @@ class Upload
     private function copyFile() {
         if(!$this->errorNum) {
             $path = rtrim($this->__basepath, '/').'/';
+            //echo  $path;
             $path .= $this->newFileName;
             if (@move_uploaded_file($this->tmpFileName, $path))
             {
