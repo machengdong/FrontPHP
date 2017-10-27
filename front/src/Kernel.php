@@ -11,6 +11,8 @@
  */
 namespace Front;
 
+
+
 class Kernel
 {
 
@@ -44,6 +46,7 @@ class Kernel
 
     public static function exceptionHandle($e)
     {
+        error_reporting(E_ALL & ~E_NOTICE);
         $message = $e->getMessage();
         $file = $e->getFile();
         $line = $e->getLine();
