@@ -27,4 +27,10 @@ class Response
         $responseInstance = \Front\App::getResponseInstance();
         return $responseInstance->end($string);
     }
+
+    public static function header($meta,$value)
+    {
+        $responseInstance = \Front\App::getResponseInstance();
+        return $responseInstance->header($meta,$value);
+    }
 }

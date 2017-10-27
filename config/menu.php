@@ -35,7 +35,7 @@ return [
             'name'=>'会员管理',
             'display'=>true,
             'sublevel'=>[
-                ['href'=>'./zzht.html','name'=>'会员列表','display'=>true],
+                ['href'=>'/admin/member/index.html','name'=>'会员列表','display'=>true],
                 ['href'=>'./zzht.html','name'=>'用户管理','display'=>true],
             ]
 

@@ -24,6 +24,7 @@ class Work
     public function boot($response)
     {
         $path_info = Request::getPathInfo();
+        !empty($path_info) && $path_info = self::preHandle($path_info);
         if($this->is_sendfile($path_info,$ext))
         {
             return $this->sendFile($response,$path_info,$ext);
@@ -32,7 +33,12 @@ class Work
         Routes::dispatch($path_info);
     }
 
-    public function sendFile($response,$path_info,$ext){var_dump($path_info);
+    static public function preHandle($path_info)
+    {
+        return '/'.trim($path_info,'/');
+    }
+
+    public function sendFile($response,$path_info,$ext){
         $response->header('Content-Type',\Front\Misc\Mime::get($ext));
         $response->sendfile(ROOT_PATH.$path_info);
         return true;
@@ -41,8 +47,8 @@ class Work
     public function is_sendfile($path_info,&$extension=null)
     {
         $pathInfo = pathinfo($path_info);
-        $extension = $pathInfo['extension'];
-        $base_name = $pathInfo['basename'];
+        $extension = @$pathInfo['extension'];
+        $base_name = @$pathInfo['basename'];
 
         if(defined('ENABLE_STATIC_HANDLER') && ENABLE_STATIC_HANDLER)
             return false;

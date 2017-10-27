@@ -27,19 +27,9 @@ function getIp()
  * @param int $dirmode
  * @return bool
  */
-function mkdir_p($dir,$dirmode = 0755){
-    $path = explode('/',str_replace('\\','/',$dir));
-    $depth = count($path);
-    for($i=$depth;$i>0;$i--){
-        if(file_exists(implode('/',array_slice($path,0,$i)))){
-            break;
-        }
-    }
-    for($i=0;$i<$depth;$i++){
-        if($d= implode('/',array_slice($path,0,$i+1))){
-            if(!is_dir($d)) mkdir($d,$dirmode);
-        }
-    }
+function mkdir_p($dir,$dirmode = 0777){
+    var_dump($dir);
+    if(!is_dir($dir)) mkdir($dir,$dirmode,true);
     return is_dir($dir);
 }
 

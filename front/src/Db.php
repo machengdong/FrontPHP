@@ -47,20 +47,20 @@ final class Db
 
     public function __call($method, $params)
     {
-        //TODO There is no use in this step
-        if(!isset($this->storage) && !self::$__database['default']) $this->load();
 
-        return call_user_func_array([self::$__database[$this->storage], $method], $params);
+        return call_user_func_array([$this->db(), $method], $params);
+    }
+
+    private function db()
+    {
+        if(!isset($this->storage) && !self::$__database['default']) $this->load();
+        return self::$__database[$this->storage];
     }
 
     public function insert(&$data,$replace = false)
     {
-        //TODO There is no use in this step
-        if(!isset($this->storage) && !self::$__database['default']) $this->load();
-
-
         $sql = $this->preHandleInsert($data,$replace);
-        $result = self::$__database[$this->storage]->execute($sql);
+        $result = $this->db()->execute($sql);
         return $result;
     }
 
@@ -80,13 +80,9 @@ final class Db
 
     public function update(&$data,$filter)
     {
-        //TODO There is no use in this step
-        if(!isset($this->storage) && !self::$__database['default']) $this->load();
-
-
         $sql = $this->preHandleUpdate($data,$filter);
 
-        $result = self::$__database[$this->storage]->execute($sql);
+        $result = $this->db()->execute($sql);
         return $result;
     }
 
@@ -106,7 +102,7 @@ final class Db
     public function delete(array $filter = [])
     {
         $sql = $this->preHandleDelete($filter);
-        $result = self::$__database[$this->storage]->execute($sql);
+        $result = $this->db()->execute($sql);
         return $result;
     }
 
@@ -168,9 +164,7 @@ final class Db
     public function get($cols = '*')
     {
         $sql = $this->preHandleSelect($cols);
-        if(!isset($this->storage) && !self::$__database['default']) $this->load();
-        //echo "<br/>".$sql."<br/>";
-        $result = self::$__database[$this->storage]->select($sql);
+        $result = $this->db()->select($sql);
         return $result;
     }
 
@@ -187,8 +181,6 @@ final class Db
         else
             $sql .= " LIMIT 0,".PHP_INT_MAX;
 
-        //die($sql);
         return $sql;
-
     }
 }

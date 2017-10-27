@@ -59,7 +59,8 @@ class Routes
 
     public static function preParse($path_info,&$module='site')
     {
-        $depth = @strpos($path_info,'/',2);
+
+        $depth = @strpos($path_info,'/',1);
         if($depth === false)
         {
             $module = 'site';

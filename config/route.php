@@ -29,5 +29,8 @@ return [
             '/doc/dopublish.html'=>'\app\control\admin\Document@doPublish',
             '/doc/list.html'=>'\app\control\admin\Document@docList',
             '/doc/update/status.html'=>'\app\control\admin\Document@update',
+
+            '/file/upload.html'=>'\app\control\admin\Upload@save',
+            '/member/index.html'=>'\app\control\admin\Member@index',
        ],
 ];
