@@ -21,16 +21,22 @@ class Loader
                     if(strpos($class_name,'Front\\') === 0)
                     {
                         $class_name = str_replace('Front\\','src/',$class_name);
-                        include FRAME_PATH.'/'.str_replace('\\','/',$class_name).'.php';
+                        $file_path =  FRAME_PATH.'/'.str_replace('\\','/',$class_name).'.php';
+                    }
+                    else
+                        $file_path = ROOT_PATH.'/../'.str_replace('\\','/',$class_name).'.php';
+
+                    if(file_exists($file_path))
+                    {
+                        include $file_path;
                         return true;
                     }
 
-                    include ROOT_PATH.'/../'.str_replace('\\','/',$class_name).'.php';
-                    return true;
+                    throw new \Exception("Class {$class_name} does not exist");
                 }
                 catch (\Exception $e)
                 {
-                    var_dump($e->getMessage());die;
+                    Kernel::exceptionHandle($e);
                 }
             }
         );
