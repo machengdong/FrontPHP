@@ -19,11 +19,12 @@ class App
 
     public static function control($control)
     {
-        if(!strpos($control,'control'))
+        $object = App::instance($control);
+        if($object instanceof \Front\Mvc\Control)
         {
-            return new \stdClass();
+            return $object;
         }
-        return $object = App::instance($control);
+        trigger_error("{$control} The Controller is not legitimate ",E_USER_ERROR);
     }
 
     public static function apiAction($action)
@@ -37,11 +38,12 @@ class App
 
     public static function model($model)
     {
-        if(!strpos($model,'model'))
+        $object = App::instance($model);
+        if($object instanceof \Front\Mvc\Control)
         {
-            return new \stdClass();
+            return $object;
         }
-        return $object = App::instance($model);
+        trigger_error("{$model} The Model is not legitimate ",E_USER_ERROR);
     }
 
     public static function setResponseInstance($responseInstance)

@@ -21,7 +21,6 @@ class Control
 
     public function display($file,$data=[])
     {
-
         return View::instance()->display($file,$data);
     }
 }

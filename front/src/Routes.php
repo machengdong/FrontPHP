@@ -11,7 +11,6 @@
  */
 namespace Front;
 
-use think\Exception;
 
 class Routes
 {

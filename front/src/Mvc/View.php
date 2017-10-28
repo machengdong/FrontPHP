@@ -44,9 +44,11 @@ final class View
                     return $result;
                 }
             }
-        }catch (\Exception $e)
+            throw new \Exception("{$file} Template file does not exist");
+        }
+        catch (\Exception $e)
         {
-
+            \Front\Kernel::exceptionHandle($e);
         }
     }
 
