@@ -39,7 +39,7 @@ class App
     public static function model($model)
     {
         $object = App::instance($model);
-        if($object instanceof \Front\Mvc\Control)
+        if($object instanceof \Front\Mvc\Model)
         {
             return $object;
         }

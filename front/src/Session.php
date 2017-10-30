@@ -11,68 +11,42 @@
  */
 namespace Front;
 
+defined('SESSION_NAME') or define('SESSION_NAME','FPSID');
+
 class Session
 {
-    private static $init;
-    private static $sess_id;
-    private static $storage;
+    private $sessionId;
 
-    public static function init()
+    public function start()
     {
-        self::$storage = Cache::instance();
-        self::get_sess_id();
-        self::$init = true;
+        if(isset($_GET[SESSION_NAME]) && $_GET[SESSION_NAME])
+        {
+            $this->sessionId = $_GET[SESSION_NAME];
+        }
+        elseif (isset($_COOKIE[SESSION_NAME]) && $_COOKIE[SESSION_NAME])
+        {
+            $this->sessionId = $_COOKIE[SESSION_NAME];
+        }elseif (isset($_POST[SESSION_NAME]) && $_POST[SESSION_NAME])
+        {
+            $this->sessionId = $_POST[SESSION_NAME];
+        }else
+        {
+            $this->sessionId = self::genId();
+            \Front\Cookie::set(SESSION_NAME,$this->sessionId,time() + 60*60*24*7);
+        }
+        $_SESSION = Cache::instance('session')->get($this->sessionId);
+
+        register_shutdown_function([$this,'close']);
     }
 
-    public static function set($name, $value = '')
-    {
-        isset(self::$init) or self::init();
-        $_SESSION[$name] = $value;
-        self::$storage->set(self::$sess_id,$_SESSION);
-    }
-
-    public static function get($name = '')
-    {
-        isset(self::$init) or self::init();
-        $_SESSION = self::$storage->get(self::$sess_id);
-        return $_SESSION[$name];
-    }
-
-    public static function delete($name)
-    {
-        return true;
-    }
-
-    public static function clear()
-    {
-        isset(self::$init) or self::init();
-        self::$storage->delete(self::$sess_id);
-        unset($_SESSION);
-        return true;
-    }
-
-    private static function gen_sess_id()
+    private static function genId()
     {
         return md5(microtime(true).uniqid('',true).mt_rand(0,99999));
     }
 
-    public static function get_sess_id()
+    public function close()
     {
-        if(isset($_GET[SESSION_NAME]) && $_GET[SESSION_NAME])
-        {
-            self::$sess_id = $_GET[SESSION_NAME];
-        }
-        elseif (isset($_COOKIE[SESSION_NAME]) && $_COOKIE[SESSION_NAME])
-        {
-            self::$sess_id = $_COOKIE[SESSION_NAME];
-        }elseif (isset($_POST[SESSION_NAME]) && $_POST[SESSION_NAME])
-        {
-            self::$sess_id = $_POST[SESSION_NAME];
-        }else
-        {
-            self::$sess_id = self::gen_sess_id();
-            \Front\Cookie::set(SESSION_NAME,self::$sess_id,time() + 60*60*24*7);
-        }
-        return self::$sess_id;
+        Cache::instance('session')->set($this->sessionId,$_SESSION);
     }
+
 }

@@ -48,9 +48,10 @@ class User extends Model
 
     public function logout()
     {
+        cases(\Front\Session::class)->start();
         foreach ($this->userLoginInfoItem as $k=>$v)
         {
-            \Front\Session::set($v,'');
+            $_SESSION[$v] = '';
         }
         unset($_COOKIE[SESSION_NAME]);
         \Front\Cookie::set(SESSION_NAME,'',time()-1);
@@ -59,18 +60,20 @@ class User extends Model
 
     public function setLoginInfo(array $userInfo)
     {
+        cases(\Front\Session::class)->start();
         foreach ($this->userLoginInfoItem as $k=>$v)
         {
-            \Front\Session::set($v,$userInfo[$k]);
+            $_SESSION[$v] = $userInfo[$k];
         }
         return true;
     }
 
     public function getLoginInfo(&$userInfo = [])
     {
+        cases(\Front\Session::class)->start();
         foreach ($this->userLoginInfoItem as $k=>$v)
         {
-            $userInfo[$v] = \Front\Session::get($v);
+            $userInfo[$v] = $_SESSION[$v];
         }
         return true;
     }

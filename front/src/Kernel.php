@@ -11,8 +11,6 @@
  */
 namespace Front;
 
-
-
 class Kernel
 {
 
@@ -20,6 +18,8 @@ class Kernel
     {
         try{
             set_error_handler([\Front\kernel::class, 'applyError']);
+
+            self::setOption();
 
             !empty($path_info) or $path_info = Request::getPathInfo();
 
@@ -46,7 +46,7 @@ class Kernel
 
     public static function exceptionHandle($e)
     {
-        error_reporting(E_ALL & ~E_NOTICE);
+
         $message = $e->getMessage();
         $file = $e->getFile();
         $line = $e->getLine();
@@ -57,5 +57,14 @@ class Kernel
         }
 
         \Front\Response::end($html);
+
+    }
+
+    public static function setOption()
+    {
+        if(defined('DEBUG_OPEN') && DEBUG_OPEN)
+            error_reporting(E_ALL);
+        else
+            error_reporting(0);
     }
 }

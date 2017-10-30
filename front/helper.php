@@ -20,6 +20,17 @@ function getIp()
     return \Front\Request::getIp();
 }
 
+
+function cases($class)
+{
+    static $instance;
+    if(!isset($instance[$class]))
+    {
+        $instance[$class] = new $class;
+    }
+    return $instance[$class];
+}
+
 /**
  * 递归创建文件夹
  *
@@ -28,7 +39,7 @@ function getIp()
  * @return bool
  */
 function mkdir_p($dir,$dirmode = 0777){
-    var_dump($dir);
+    //var_dump($dir);
     if(!is_dir($dir)) mkdir($dir,$dirmode,true);
     return is_dir($dir);
 }

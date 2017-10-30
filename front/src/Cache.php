@@ -19,55 +19,21 @@ class Cache
 
     private static $__instance;
 
-    public static function instance($store = 'default')
+    public static function instance($name = 'default')
     {
-        if(!isset(self::$__instance))
+        if(!isset(self::$__instance[$name]))
         {
-            self::$__instance = new self($store);
+            $config =  Config::get('cache');
+            $class = $config['driver'][$config['storage'][$name]['driver']];
+            self::$__instance[$name] = new $class();
         }
-        return self::$__instance;
+        return self::$__instance[$name];
     }
 
-    public function __construct($store)
+    public function __call($name, $arguments)
     {
-
+        // TODO: Implement __call() method.
+        return call_user_func_array([self::instance(),$name],$arguments);
     }
 
-    public static function boot()
-    {
-        $class = Config::get('cache.driver');
-        if(class_exists($class))
-        {
-            if(!isset(self::$init))
-            {
-                self::$storage = new $class;
-                self::$init = true;
-            }
-        }
-    }
-
-    public static function set($name, $value = '')
-    {
-        isset(self::$init) or self::boot();
-        return self::$storage->set($name, $value);
-    }
-
-    public static function get($name = '')
-    {
-        isset(self::$init) or self::boot();
-        return self::$storage->get($name);
-    }
-
-    public static function delete($name)
-    {
-        isset(self::$init) or self::boot();
-        self::$storage->delete($name);
-    }
-
-    public static function clear()
-    {
-        isset(self::$init) or self::boot();
-        self::$storage->clear();
-
-    }
 }
