@@ -14,6 +14,14 @@ namespace Front;
 
 class Config
 {
+
+    /**
+     * @desc 获取配置项
+     *
+     * @param $key
+     * @param null $default
+     * @return mixed|null
+     */
     public static function get($key,$default = null)
     {
         list($files,$item) = self::parseKey($key);
@@ -23,11 +31,23 @@ class Config
         return $default;
     }
 
+    /**
+     * @desc 加载配置文件
+     *
+     * @param $files
+     * @return mixed
+     */
     private static function load($files)
     {
         return require ROOT_PATH.'/../config/'.$files.'.php';
     }
 
+    /**
+     * @desc 解析配置项键名
+     *
+     * @param $key
+     * @return array
+     */
     static private function parseKey($key)
     {
         $segments   =  explode('.', $key);

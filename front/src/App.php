@@ -14,9 +14,21 @@ namespace Front;
 
 class App
 {
+    /**
+     * @var $__instance
+     */
     private static $__instance;
+
+    /**
+     * @var $__responseInstance
+     */
     private static $__responseInstance;
 
+    /**
+     *
+     * @param $control
+     * @return mixed
+     */
     public static function control($control)
     {
         $object = App::instance($control);
@@ -27,15 +39,11 @@ class App
         trigger_error("{$control} The Controller is not legitimate ",E_USER_ERROR);
     }
 
-    public static function apiAction($action)
-    {
-        if(!strpos($action,'apis'))
-        {
-            return new \stdClass();
-        }
-        return $object = App::instance($action);
-    }
-
+    /**
+     *
+     * @param $model
+     * @return mixed
+     */
     public static function model($model)
     {
         $object = App::instance($model);
@@ -46,11 +54,21 @@ class App
         trigger_error("{$model} The Model is not legitimate ",E_USER_ERROR);
     }
 
+    /**
+     * 设置响应类的实例，Swoole\Http\Response
+     *
+     * @param $responseInstance
+     */
     public static function setResponseInstance($responseInstance)
     {
         self::$__responseInstance = $responseInstance;
     }
 
+    /**
+     * 获取响应类的实例，没有设置的时候就使用\Front\Driver\Response\Response::class
+     *
+     * @return mixed
+     */
     public static function getResponseInstance()
     {
         if(!isset(self::$__responseInstance))
@@ -61,6 +79,13 @@ class App
         }
     }
 
+    /**
+     * @desc 接受请求参数
+     *
+     * @param null $name
+     * @param bool $original
+     * @return array|bool|string
+     */
     public static function input($name = null,$original = false)
     {
         if($original)
@@ -78,6 +103,12 @@ class App
         return $data;
     }
 
+    /**
+     * @desc 保存类实例
+     *
+     * @param $class_name
+     * @return mixed
+     */
     private static function instance($class_name)
     {
         if(!isset(self::$__instance[$class_name]))

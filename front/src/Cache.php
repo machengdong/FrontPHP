@@ -13,12 +13,18 @@ namespace Front;
 
 class Cache
 {
-    protected static $init;
-
-    protected static $storage;
-
+    /**
+     * @var $__instance
+     *
+     */
     private static $__instance;
 
+    /**
+     * @desc 设置使用缓存场景
+     *
+     * @param string $name
+     * @return mixed
+     */
     public static function instance($name = 'default')
     {
         if(!isset(self::$__instance[$name]))
@@ -30,9 +36,15 @@ class Cache
         return self::$__instance[$name];
     }
 
+    /**
+     * @desc 使用默认缓存场景
+     *
+     * @param $name
+     * @param $arguments
+     * @return mixed
+     */
     public function __call($name, $arguments)
     {
-        // TODO: Implement __call() method.
         return call_user_func_array([self::instance(),$name],$arguments);
     }
 

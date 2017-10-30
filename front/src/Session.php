@@ -34,8 +34,9 @@ class Session
             $this->sessionId = self::genId();
             \Front\Cookie::set(SESSION_NAME,$this->sessionId,time() + 60*60*24*7);
         }
+        //Log::debug($this->sessionId);
         $_SESSION = Cache::instance('session')->get($this->sessionId);
-
+        //Log::debug(var_export($_SESSION,1));
         register_shutdown_function([$this,'close']);
     }
 
