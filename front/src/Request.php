@@ -11,12 +11,22 @@
  */
 namespace Front;
 
-
+/**
+ * Class Request 请求管理类
+ *
+ * @package Front
+ */
 class Request
 {
 
+    /** @var array 需要过滤的uri字符串 */
     private static $uri_filter = ['<','>','`','|','~','^','*','/index.php'];
 
+    /**
+     * @desc 获取PATH_INFO
+     *
+     * @return mixed|string
+     */
     public static function getPathInfo()
     {
         $server    = $_SERVER;
@@ -26,7 +36,7 @@ class Request
         {
             $path_info = $server['PATH_INFO'];
         }
-        elseif(isset($server['PHP_SELF']))
+        elseif(isset($server['PHP_SELF']))//TODO 这样子做的其实并不太合适
         {
             $path_info = $server['PHP_SELF'];
         }
@@ -36,6 +46,11 @@ class Request
         return $path_info;
     }
 
+    /**
+     * @desc 获取服务器地址
+     *
+     * @return string
+     */
     public static function getHost()
     {
         $server = $_SERVER;
@@ -45,6 +60,11 @@ class Request
         return $host;
     }
 
+    /**
+     * @desc 获取请求方法
+     *
+     * @return string
+     */
     public static function getMethod()
     {
         $server    = $_SERVER;
@@ -84,6 +104,11 @@ class Request
         return false;
     }
 
+    /**
+     * @desc 获取客户端IP地址
+     *
+     * @return bool
+     */
     public static function getIp()
     {
         $ip = false;

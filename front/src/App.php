@@ -11,7 +11,11 @@
  */
 namespace Front;
 
-
+/**
+ * Class App 应用服务类
+ *
+ * @package Front
+ */
 class App
 {
     /**

@@ -26,6 +26,10 @@ return [
             'name' => '菜单',
             'driver' => 'file',
         ],
+        'default' => [
+            'name' => '默认缓存场景',
+            'driver' => 'file',
+        ],
     ],
 
     'driver' =>[

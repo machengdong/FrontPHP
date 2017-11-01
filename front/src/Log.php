@@ -11,8 +11,14 @@
  */
 namespace Front;
 
+/**
+ * Class Log 日志管理类
+ *
+ * @package Front
+ */
 final class Log
 {
+    /** @var array 日志等级 */
     private $logLvs = ['emergency','alert','critical','error','warning','notice','info','debug'];
 
     static public function emergency($message)

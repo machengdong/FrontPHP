@@ -11,7 +11,11 @@
  */
 namespace Front;
 
-
+/**
+ * Class Config
+ *
+ * @package Front
+ */
 class Config
 {
 

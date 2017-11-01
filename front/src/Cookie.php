@@ -11,7 +11,13 @@
  */
 namespace Front;
 
-
+/**
+ * Class Cookie
+ *
+ * desc 因为swoole不能使用setcookie函数
+ *
+ * @package Front
+ */
 class Cookie
 {
     /**

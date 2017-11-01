@@ -11,6 +11,11 @@
  */
 namespace Front;
 
+/**
+ * Class Cache 缓存管理类
+ *
+ * @package Front
+ */
 class Cache
 {
     /**
@@ -46,6 +51,40 @@ class Cache
     public function __call($name, $arguments)
     {
         return call_user_func_array([self::instance(),$name],$arguments);
+    }
+
+    /**
+     * @desc 使用默认缓存场景
+     *
+     * @usage \Front\Cache::get('86f70e098e31bafe67af415da5d704fc')
+     * @param $name
+     * @param $arguments
+     * @return mixed
+     */
+    public static function __callStatic($method, $args)
+    {
+        $instance = self::instance();
+
+        switch (count($args))
+        {
+            case 0:
+                return $instance->$method();
+
+            case 1:
+                return $instance->$method($args[0]);
+
+            case 2:
+                return $instance->$method($args[0], $args[1]);
+
+            case 3:
+                return $instance->$method($args[0], $args[1], $args[2]);
+
+            case 4:
+                return $instance->$method($args[0], $args[1], $args[2], $args[3]);
+
+            default:
+                return call_user_func_array(array($instance, $method), $args);
+        }
     }
 
 }
