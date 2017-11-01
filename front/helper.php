@@ -10,38 +10,45 @@
  *
  */
 
-/**
- * 获取客户端IP
- *
- * @return bool
- */
-function getIp()
-{
-    return \Front\Request::getIp();
-}
-
-
-function cases($class)
-{
-    static $instance;
-    if(!isset($instance[$class]))
+if(!function_exists('getIp')) {
+    /**
+     * 获取客户端IP
+     *
+     * @return bool
+     */
+    function getIp()
     {
-        $instance[$class] = new $class;
+        return \Front\Request::getIp();
     }
-    return $instance[$class];
 }
 
-/**
- * 递归创建文件夹
- *
- * @param $dir
- * @param int $dirmode
- * @return bool
- */
-function mkdir_p($dir,$dirmode = 0777){
-    //var_dump($dir);
-    if(!is_dir($dir)) mkdir($dir,$dirmode,true);
-    return is_dir($dir);
+if(!function_exists('cases')) {
+
+    function cases($class)
+    {
+        static $instance;
+
+        if (!isset($instance[$class])) {
+            $instance[$class] = new $class;
+        }
+
+        return $instance[$class];
+    }
+}
+
+if(!function_exists('mkdir_p')) {
+    /**
+     * 递归创建文件夹
+     *
+     * @param $dir
+     * @param int $dirmode
+     * @return bool
+     */
+    function mkdir_p($dir,$dirmode = 0777){
+        //var_dump($dir);
+        if(!is_dir($dir)) mkdir($dir,$dirmode,true);
+        return is_dir($dir);
+    }
 }
 
 if(!function_exists('readline')) {

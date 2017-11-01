@@ -42,7 +42,7 @@ class Session
 
     private static function genId()
     {
-        return md5(microtime(true).uniqid('',true).mt_rand(0,99999));
+        return md5(microtime(true).uniqid('',true).getIp().mt_rand(0,99999));
     }
 
     public function close()

@@ -10,7 +10,7 @@
  *
  */
 namespace Front;
-use Front\Interfaces\Command;
+
 
 class Shell
 {

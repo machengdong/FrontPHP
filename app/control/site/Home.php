@@ -34,7 +34,7 @@ class Home extends Control
     public function getMdebug()
     {
 
-        //\Front\Response::sendfile("./404.html");die;
+        \Front\Response::sendfile("./404.htmlxx");die;
         $object = App::model(\app\model\Home::class);
 
         $result = \Front\Db::instance()->table('sysinfo')->get();

@@ -50,12 +50,13 @@ class Kernel
         $message = $e->getMessage();
         $file = $e->getFile();
         $line = $e->getLine();
-        $html = "<p style='background-color: red;'>{$message} --- {$file} --- {$line}</p>";
-        foreach (debug_backtrace() as $item)
+        $html  = "<html><head></head><body style='margin:0px;background-color: #c1f5d6;'>";
+        $html .= "<p style='background-color: #ef3f3f; height: 60px; width: 100%; font-size: 20px; line-height: 60px;'>&nbsp; <span style='font-weight: 900;'>{$message}</span>&nbsp;&nbsp;{$file}&nbsp;&nbsp;{$line}</p>";
+        foreach (debug_backtrace() as $k=>$item)
         {
-            $html .= "<div>File: {$item['file']} Function: {$item['function']} Line: {$item['line']}</div>";
+            $html .= "<div style='height: 26px;line-height: 26px;'>&nbsp;&nbsp;<b>{$k}:</b> {$item['file']} &nbsp;&nbsp;<span style='color: #3c43d0;'><b>{$item['function']}</b></span> &nbsp;&nbsp; {$item['line']}</div>";
         }
-
+        $html .= "</body></html>";
         \Front\Response::end($html);
 
     }
