@@ -45,13 +45,13 @@ class Response
     /**
      * @desc 发送http响应实体并结束请求处理
      *
-     * @param string $string
+     * @param string $data
      * @return mixed
      */
-    public static function end($string = '')
+    public static function end($data = '')
     {
         $responseInstance = \Front\App::getResponseInstance();
-        return $responseInstance->end($string);
+        return $responseInstance->end($data);
     }
 
     /**
@@ -65,5 +65,11 @@ class Response
     {
         $responseInstance = \Front\App::getResponseInstance();
         return $responseInstance->header($meta,$value);
+    }
+
+    public static function write($data = '')
+    {
+        $responseInstance = \Front\App::getResponseInstance();
+        return $responseInstance->write($data);
     }
 }

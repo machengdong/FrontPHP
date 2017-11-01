@@ -38,6 +38,10 @@ class Home extends Control
         $object = App::model(\app\model\Home::class);
 
         $result = \Front\Db::instance()->table('sysinfo')->get();
+
+        dump($result);
+
+        dump($result,true);
         $datay = [];
         foreach ($result as $k=>$v)
         {
@@ -66,7 +70,7 @@ class Home extends Control
 
 
 
-var_dump($result);die;
+        var_dump($result);die;
 
         $object = new \Front\Driver\cache\File;
         $object->set('zaq',1234567);

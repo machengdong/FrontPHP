@@ -30,9 +30,14 @@ class Response
         header(\Front\Misc\Http::get($code),true,$code);
     }
 
-    public function end($html = '')
+    public function end($data = '')
     {
-        echo $html;exit();
+        echo $data;exit();
+    }
+
+    public function write($data = '')
+    {
+        echo $data;
     }
 
 }
