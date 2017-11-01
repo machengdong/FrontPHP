@@ -27,7 +27,7 @@ class Response
 
     public function status($code = 200)
     {
-        header(\Front\Misc\Http::get($code));
+        header(\Front\Misc\Http::get($code),true,$code);
     }
 
     public function end($html = '')

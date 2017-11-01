@@ -19,6 +19,5 @@ include ROOT_PATH.'/../config/config.php';
 
 Front\Loader::autoload();
 
-
 Front\Shell::init(Front\Config::get('command'))->run();
 
