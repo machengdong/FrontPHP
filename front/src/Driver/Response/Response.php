@@ -12,6 +12,8 @@
 namespace Front\Driver\Response;
 
 
+use Front\Kernel;
+
 class Response
 {
 
@@ -38,6 +40,30 @@ class Response
     public function write($data = '')
     {
         echo $data;
+    }
+
+    public function sendfile($file = '')
+    {
+        try{
+            if(file_exists($file))
+            {
+                if(!readfile($file))
+                {
+                    throw new \Exception("{$file} read the failure");
+                }
+            }
+            else
+                throw new \Exception("{$file} can't find");
+
+        }catch (\Exception $e)
+        {
+            Kernel::exceptionHandle($e);
+        }
+    }
+
+    public function gzip($level = 1)
+    {
+        return true;
     }
 
 }

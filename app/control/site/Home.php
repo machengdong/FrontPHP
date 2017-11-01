@@ -34,14 +34,14 @@ class Home extends Control
     public function getMdebug()
     {
 
-
+        //\Front\Response::sendfile("./404.html");die;
         $object = App::model(\app\model\Home::class);
 
         $result = \Front\Db::instance()->table('sysinfo')->get();
 
         dump($result);
 
-        dump($result,true);
+        dump(['1',[2],5],true);
         $datay = [];
         foreach ($result as $k=>$v)
         {
