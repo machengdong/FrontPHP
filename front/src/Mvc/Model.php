@@ -16,53 +16,37 @@ use Front\Db;
 
 class Model
 {
-    public $databases;
+    public $db;
 
     public $table_name;
 
 
     public function __construct()
     {
-        if(!$this->table_name)
-        {
-            $name = get_class($this);
-            $this->table_name = strtolower(substr($name,strrpos($name,'\\')+1));
-        }
+        !empty($this->table_name) or $this->table_name = $this->setTable();
 
-        if(!$this->databases)
-        {
-            $this->databases = Db::instance();
-        }
+        !empty($this->db) or $this->db = Db::instance();
     }
 
-
-    public function table($table_name = null)
+    public function setTable()
     {
-        $this->table_name = $table_name;
-        return $this;
-    }
-
-    public function load($storage = 'default',$name = false)
-    {
-        $this->databases->load($storage,$name);
-        return $this;
-    }
-
-    public function getList($cols = '*',$filter = [],$offset = 0,$limit = PHP_INT_MAX,$orderby = null)
-    {
-        return $this->databases->table($this->table_name)->where($filter)->limit($limit,$offset)->order($orderby)->get($cols);
-    }
-
-    public function getRow($cols = '*',$filter = [])
-    {
-        $result = $this->getList($cols,$filter,0,1);
-        if(!empty($result) && isset($result[0])) return $result[0];
-        return [];
+        $name = get_class($this);
+        return strtolower(substr($name,strrpos($name,'\\')+1));
     }
 
     public function __call($method, $params)
     {
-        return call_user_func_array([$this->databases, $method], $params);
+        switch ($method)
+        {
+            case 'update':
+            case 'delete':
+            case 'insert':
+            case 'count':
+            case 'get':
+                !isset($this->db->table_name) && $this->db->table($this->table_name);
+                break;
+        }
+        return call_user_func_array([$this->db, $method], $params);
     }
 
 }

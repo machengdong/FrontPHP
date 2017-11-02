@@ -33,17 +33,39 @@ class Work
         \Front\Kernel::boot($path_info);
     }
 
+    /**
+     * @desc 预处理PATH_INFO
+     *
+     * @param $path_info
+     * @return string
+     */
     static public function preHandle($path_info)
     {
         return '/'.trim($path_info,'/');
     }
 
+    /**
+     * @desc 发送文件到浏览器
+     *
+     * @param $response
+     * @param $path_info
+     * @param $ext
+     * @return bool
+     */
     public function sendFile($response,$path_info,$ext){
+        /** 首先获取mime-type */
         $response->header('Content-Type',\Front\Misc\Mime::get($ext));
         $response->sendfile(ROOT_PATH.$path_info);
         return true;
     }
 
+    /**
+     * @desc 判断当前请求是否发送文件到浏览器
+     *
+     * @param $path_info
+     * @param null $extension
+     * @return bool
+     */
     public function is_sendfile($path_info,&$extension=null)
     {
         $pathInfo = pathinfo($path_info);
@@ -53,16 +75,10 @@ class Work
         if(defined('ENABLE_STATIC_HANDLER') && ENABLE_STATIC_HANDLER)
             return false;
         elseif (in_array($base_name,self::$base_name))
-        {
             return true;
-        }
         elseif (in_array($extension,self::$extension))
-        {
             return false;
-        }
         else
-        {
             return true;
-        }
     }
 }

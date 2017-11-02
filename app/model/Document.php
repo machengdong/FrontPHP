@@ -26,6 +26,6 @@ class Document extends Model
         $_data['title'] = $data['title'];
         $_data['savetime'] = $_data['updatetime'] = time();
         $_data['start_status'] = 'N';
-        return $this->databases->table($this->table_name)->insert($_data,true);
+        return $this->db->table($this->table_name)->insert($_data,true);
     }
 }

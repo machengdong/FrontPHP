@@ -22,7 +22,7 @@ class Document extends Base
     public function docList()
     {
         $docMdl = App::model(\app\model\Document::class);
-        $result = $docMdl->getList('*');
+        $result = $docMdl->get('*');
         return $this->display('admin/doc/list.php',['result'=>$result]);
     }
 

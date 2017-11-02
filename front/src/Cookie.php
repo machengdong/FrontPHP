@@ -48,14 +48,34 @@ class Cookie
         return isset($_COOKIE[$name]) ? $_COOKIE[$name] : null;
     }
 
+    /**
+     * @desc 删除COOKIE
+     *
+     * @param $name
+     * @return bool
+     */
     public static function delete($name)
     {
-        return null;
+        if(self::get($name))
+        {
+            unset($_COOKIE[$name]);
+            self::set($name,'',(time() - 1));
+        }
+        return true;
     }
 
+    /**
+     * @desc 清空当前域下的所有COOKIE
+     *
+     * @return true
+     */
     public static function clear()
     {
-        return null;
+        foreach ((array)$_COOKIE as $v)
+        {
+            self::delete($v);
+        }
+        return true;
     }
 
 }
