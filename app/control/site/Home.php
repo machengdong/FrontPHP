@@ -19,13 +19,30 @@ class Home extends Control
 {
     public function root()
     {
-        echo "<pre>";
-        dump('this site Control.root',false);
+        return $this->display('site/home.php');
     }
 
     public function getInfo()
     {
-        echo 'xxxxx';
-        $this->display('home.php');
+        return $this->display('site/info.php');
     }
+    public function getDesc()
+    {
+        return $this->display('site/desc.php');
+    }
+
+    public function getMdebug()
+    {
+
+        $d =['uname'=>'zaq'.rand(100,999)];
+        //$result = App::model(\app\model\Document::class)->load('goods')->table('demo')->insert($d);
+        //$result = App::model(\app\model\Document::class)->load()->table('demo')->insert($d);
+        $result = App::model(\app\model\Document::class)->load('goods')->table('demo')->insert($d);
+        $result = App::model(\app\model\Home::class)->get();
+        dump($result);
+
+
+    }
+
+
 }

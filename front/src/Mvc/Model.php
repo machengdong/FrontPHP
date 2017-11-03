@@ -16,32 +16,37 @@ use Front\Db;
 
 class Model
 {
-    public $databases;
+    public $db;
+
+    public $table_name;
+
 
     public function __construct()
     {
-       if(!$this->databases)
-       {
-           $this->databases = Config::get('database.default');
-       }
-        Db::getInstance()->connect($this->databases);
+        !empty($this->table_name) or $this->table_name = $this->setTable();
+
+        !empty($this->db) or $this->db = Db::instance();
     }
 
-    public function storage($storage = 'default')
+    public function setTable()
     {
-        $dbconfig = Config::get("database.{$storage}");
+        $name = get_class($this);
+        return strtolower(substr($name,strrpos($name,'\\')+1));
+    }
 
-        if($dbconfig && is_array($dbconfig))
+    public function __call($method, $params)
+    {
+        switch ($method)
         {
-            $this->databases = $dbconfig;
+            case 'update':
+            case 'delete':
+            case 'insert':
+            case 'count':
+            case 'get':
+                !isset($this->db->table_name) && $this->db->table($this->table_name);
+                break;
         }
-
-        return $this;
+        return call_user_func_array([$this->db, $method], $params);
     }
 
-    public function select()
-    {
-        print_r($this->databases);
-        print_r('this is base model.select');
-    }
 }

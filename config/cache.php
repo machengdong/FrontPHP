@@ -11,22 +11,31 @@
  */
 
 return [
-    'default' => [
-        'db_host'=>'127.0.0.1',
-        'db_name'=>'demo',
-        'db_user'=>'root',
-        'db_pass'=>'root',
+    //'driver' => \Front\Driver\cache\File::class,
+
+    'storage' => [
+        'session' => [
+            'name' => '会话控制',
+            'driver' => 'file',
+        ],
+        'common' => [
+            'name' => '一般缓存',
+            'driver' => 'file',
+        ],
+        'menus' => [
+            'name' => '菜单',
+            'driver' => 'file',
+        ],
+        'default' => [
+            'name' => '默认缓存场景',
+            'driver' => 'file',
+        ],
     ],
-    'master' => [
-        'db_host'=>'127.0.0.2',
-        'db_name'=>'demo',
-        'db_user'=>'root',
-        'db_pass'=>'root',
-    ],
-    'standby' => [
-        'db_host'=>'127.0.0.3',
-        'db_name'=>'demo',
-        'db_user'=>'root',
-        'db_pass'=>'root',
-    ],
+
+    'driver' =>[
+        'file'=>\Front\Driver\cache\File::class,
+        'apc'=>\Front\Driver\cache\Apc::class,
+        'memcached'=>\Front\Driver\cache\Memcached::class,
+        'redis'=>\Front\Driver\cache\Redis::class,
+    ]
 ];

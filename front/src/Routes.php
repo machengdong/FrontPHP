@@ -11,90 +11,108 @@
  */
 namespace Front;
 
+/**
+ * Class Routes
+ *
+ * @package Front
+ */
 class Routes
 {
-
-
+    /**
+     * 执行请求
+     *
+     * @param $object
+     */
     public static function dispatch_default($object)
     {
         try
         {
-            if(!$object) self::redirect(404);
+            if(!$object) Response::redirect(302,'/404.html');
+
+            self::__check_cache();
 
             list($control,$method) = explode('@',$object);
+            //$output = App::control($control)->$method();
+            if(method_exists(App::control($control),$method))
+            {
+                $output = call_user_func_array([ App::control($control) , $method ], []);
+            }
+            else
+            {
+                throw new \Exception("There is no {$control} method in {$method} class");
+            }
 
-            App::control($control)->$method();
+            self::__handle_result($output);
+
+            Response::end($output);
         }
         catch (\Exception $e)
         {
-            return $e->getMessage();
+           \Front\Kernel::exceptionHandle($e);
         }
 
     }
+
+    /**
+     * 处理结果
+     *
+     * @param $output
+     */
+    private static function __handle_result(&$output)
+    {
+        $is_ajax = \Front\Request::isAjax();
+
+        (!empty($output) && is_array($output)) && $output = json_encode($output,JSON_UNESCAPED_UNICODE);
+
+    }
+
+    /**
+     * 检查缓存
+     *
+     */
+    private static function __check_cache()
+    {
+
+    }
+
 
     public static function dispatch_apis($routes)
     {
-        try
-        {
-            self::redirect(403);
-        }
-        catch (\Exception $e)
-        {
-
-        }
+        Response::redirect(302,'/404.html');
     }
 
+    /**
+     * 执行
+     *
+     * @param string $path_info
+     */
     public static function dispatch($path_info = '')
     {
-
+        /** 预解析PATH_INFO */
         $routes = Routes::preParse($path_info,$module);
+        /** 将api和其他模块分开处理 */
         switch ($module)
         {
             case 'api':
-                Routes::dispatch_apis($routes);
+                self::dispatch_apis($routes);
                 break;
             default:
-                Routes::dispatch_default($routes);
+                self::dispatch_default($routes);
                 break;
         }
     }
 
-    public static function redirect($status = 302,$url = '')
-    {
-        switch($status)
-        {
-            case 302:
-                ob_end_flush();
-                @header("Location: {$url}");
-                break;
-            case 301:
-                ob_end_flush();
-                @header('HTTP/1.1 301 Moved Permanently');
-                @header("Location: {$url}");
-                break;
-            case 404:
-                ob_end_flush();
-                @header("http/1.1 404 Not Found");
-                @header("status: 404 Not Found");
-                if(file_exists(ROOT_PATH.'/404.html'))
-                {
-                    include ROOT_PATH.'/404.html';
-                }
-                break;
-            case 403:
-                ob_end_flush();
-                @header("http/1.1 403 Forbidden");
-                @header("status: 403 Forbidden");
-                break;
-            default:
-                break;
-        }
-        exit;
-    }
-
+    /**
+     * 预解析PATH_INFO
+     *
+     * @param $path_info
+     * @param string $module
+     * @return null
+     */
     public static function preParse($path_info,&$module='site')
     {
-        $depth = @strpos($path_info,'/',2);
+
+        $depth = @strpos($path_info,'/',1);
         if($depth === false)
         {
             $module = 'site';
@@ -105,7 +123,9 @@ class Routes
             $module = substr($path_info,1,$depth-1);
             $target = substr($path_info,$depth);
         }
+
         $routes   = self::load($module);
+
         if(@array_key_exists($target,$routes))
         {
             return $routes[$target];
@@ -114,6 +134,12 @@ class Routes
         return null;
     }
 
+    /**
+     * 加载路由表
+     *
+     * @param $scene
+     * @return mixed|null
+     */
     private static function load($scene)
     {
         return Config::get("route.{$scene}");
