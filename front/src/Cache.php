@@ -34,9 +34,23 @@ class Cache
     {
         if(!isset(self::$__instance[$name]))
         {
-            $config =  Config::get('cache');
-            $class = $config['driver'][$config['storage'][$name]['driver']];
-            self::$__instance[$name] = new $class();
+            try {
+                /** 获取缓存配置 */
+                $config = Config::get('cache');
+
+                if (@array_key_exists($name, $config['storage']))
+                {
+                    $class = $config['driver'][$config['storage'][$name]['driver']];
+                }
+                else
+                    throw new \Exception('The cache scenario is not configured');
+
+                self::$__instance[$name] = new $class();
+            }
+            catch (\Exception $e)
+            {
+                Kernel::exceptionHandle($e);
+            }
         }
         return self::$__instance[$name];
     }

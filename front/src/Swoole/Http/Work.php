@@ -18,7 +18,9 @@ use Front\Routes;
 
 class Work
 {
+    /** @var array */
     private static $extension = ['html','htm','php','/',''];
+    /** @var array */
     private static $base_name = ['404.html','502.html'];
 
     public function boot($response)
