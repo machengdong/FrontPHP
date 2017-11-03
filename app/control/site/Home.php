@@ -17,32 +17,8 @@ use Front\App;
 
 class Home extends Control
 {
-    public function root()
+    public function index()
     {
         return $this->display('site/home.php');
     }
-
-    public function getInfo()
-    {
-        return $this->display('site/info.php');
-    }
-    public function getDesc()
-    {
-        return $this->display('site/desc.php');
-    }
-
-    public function getMdebug()
-    {
-
-        $d =['uname'=>'zaq'.rand(100,999)];
-        //$result = App::model(\app\model\Document::class)->load('goods')->table('demo')->insert($d);
-        //$result = App::model(\app\model\Document::class)->load()->table('demo')->insert($d);
-        $result = App::model(\app\model\Document::class)->load('goods')->table('demo')->insert($d);
-        $result = App::model(\app\model\Home::class)->get();
-        dump($result);
-
-
-    }
-
-
 }
