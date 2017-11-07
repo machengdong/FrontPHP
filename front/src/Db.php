@@ -126,6 +126,8 @@ final class Db
         /** @var $sql  COUNT语句 */
         $sql = "select count(*) as c from {$this->table_name} where ".$this->__filter($filter);
 
+        $this->__reset();
+
         return $sql;
     }
 
@@ -167,6 +169,8 @@ final class Db
         /** 生成Insert语句 */
         $sql = ($replace ? 'REPLACE' : 'INSERT') ." INTO {$this->table_name}({$cols}) VALUES ($value);";
 
+        $this->__reset();
+
         return $sql;
     }
 
@@ -204,6 +208,7 @@ final class Db
         /** 生成Update语句 */
         $sql = " UPDATE {$this->table_name} SET $object WHERE ".$this->__filter($filter);
 
+        $this->__reset();
         return $sql;
     }
 
@@ -229,6 +234,9 @@ final class Db
     public function preHandleDelete(array $filter)
     {
         $sql = "DELETE FROM {$this->table_name} WHERE ".$this->__filter($filter);
+
+        $this->__reset();
+
         return $sql;
     }
 
@@ -292,8 +300,9 @@ final class Db
     public function get($cols = '*')
     {
         $sql = $this->preHandleSelect($cols);
-
+        //echo  $sql;
         $result = $this->db()->select($sql);
+
         return $result;
     }
 
@@ -315,6 +324,8 @@ final class Db
             $sql .= " LIMIT {$this->offset},{$this->limit} ";
         else
             $sql .= " LIMIT 0,".PHP_INT_MAX;
+
+        $this->__reset();
 
         return $sql;
     }
@@ -350,6 +361,20 @@ final class Db
     public function __destruct()
     {
 
+    }
+
+    /**
+     * 重置SQL条件
+     *
+     *  update/delete/insert/count/get
+     */
+    private function __reset()
+    {
+        $this->table_name = null;
+        $this->offset = null;
+        $this->limit = null;
+        $this->where = null;
+        $this->orderby = null;
     }
 }
 
