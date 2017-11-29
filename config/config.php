@@ -12,6 +12,10 @@
 
 //error_reporting(E_ALL & ~E_NOTICE);
 
+
+
+define('DEFAULT_MODULE','admin');
+define('DEFAULT_CONTROL','Passport');
 define('DEBUG_OPEN',false);
 define('FRAME_PATH',ROOT_PATH.'/../front');
 define('APPLY',ROOT_PATH.'/../app');
