@@ -22,14 +22,14 @@
 ```
 phploc 4.0.1 by Sebastian Bergmann.
 
-Directories                                         24
-Files                                               52
+Directories                                         23
+Files                                               51
 
 Size
-  Lines of Code (LOC)                             4522
-  Comment Lines of Code (CLOC)                    1000 (22.11%)
-  Non-Comment Lines of Code (NCLOC)               3522 (77.89%)
-  Logical Lines of Code (LLOC)                     971 (21.47%)
+  Lines of Code (LOC)                             4520
+  Comment Lines of Code (CLOC)                    1000 (22.12%)
+  Non-Comment Lines of Code (NCLOC)               3520 (77.88%)
+  Logical Lines of Code (LLOC)                     971 (21.48%)
     Classes                                        874 (90.01%)
       Average Class Length                          30
         Minimum Class Length                         1
